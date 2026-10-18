@@ -275,3 +275,33 @@ footer{background:var(--ink);color:#fff;border-radius:44px 44px 0 0;padding:90px
 .fbot{display:flex;justify-content:space-between;font-size:.74rem;color:#8f89c9;border-top:1px solid rgba(255,255,255,.1);padding:18px 0}
 .giant{font-size:clamp(2rem,6.2vw,7rem);font-weight:800;letter-spacing:-.06em;line-height:.8;white-space:nowrap;text-align:center;color:transparent;background:linear-gradient(180deg,var(--ind2),#2a1a8a 70%,transparent);-webkit-background-clip:text;background-clip:text;margin:0;padding-top:.1em;padding-bottom:0;width:100%;overflow:hidden;user-select:none}
 @media (max-width:768px){html,body{overflow-x:hidden;max-width:100%;width:100%}*,*::before,*::after{box-sizing:border-box}section,.wrap,.pcard,.svc,.job,.job .box,.tcard,.more .mc,.review-card,.modal-card,.fcols,.info,.cbox,.stack-grid,.cards4,.edu-row,.hero-stage,.quote,.chip,.role,.marq-wrap{width:100%;max-width:100%;box-sizing:border-box}.cards4,.stack-grid,.pcard,.info,.cbox,.fcols,.more,.job,.edu-row{grid-template-columns:1fr}.wrap{padding:0 16px}.hero-stage{height:auto;min-height:260px}section{overflow-x:hidden}.giant{font-size:clamp(1.2rem,4vw,2rem)}.marq-wrap{padding:20px 0}img,svg,video{max-width:100%;height:auto}}
+/* ===== MOBILE OVERFLOW FIX ===== */
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:hidden;max-width:100%}
+body{max-width:100%;overflow-x:clip}   /* "clip" rakha hai taake sticky cards kaam karte rahein */
+img,video,canvas,iframe{max-width:100%}
+img,video{height:auto}
+
+@media (max-width:768px){
+  section,header,main,footer,
+  .cbox,.pcard,.tcard,.svc,.mc,.job,.box,.big-card,.pvis,.info,
+  .cards4,.stack-grid,.more,.tline,.pstack,
+  [class*="bento"],[class*="card"]{
+    width:100%;max-width:100%;min-width:0;
+  }
+  .wrap,[class*="container"]{width:100%;max-width:100%;padding-left:16px;padding-right:16px}
+
+  /* grid/flex ke andar ke bachche text ki wajah se container ko chauda na karein */
+  .cards4>*,.stack-grid>*,.more>*,.info>*,.cbox>*,.pcard>*,.job>*,.edu-row>*,.fcols>*{min-width:0}
+
+  h1,h2,h3,h4,p,li,label{overflow-wrap:break-word}
+  a,.info div,.clinks span,.fcols li{overflow-wrap:anywhere}   /* lambi email/link wrap ho jaye */
+
+  /* bahar nikalne wale decorative items andar rakho */
+  .award{right:8px}
+  .quote{max-width:100%}
+  .hero-stage{width:100%;max-width:100%}
+
+  /* tilted marquee lines ka wrapper: bandon ko sirf clip karo, page ko chauda mat hone do */
+  .marq-wrap,[class*="marq"]{max-width:100%;overflow:hidden}
+}
