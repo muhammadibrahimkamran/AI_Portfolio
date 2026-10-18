@@ -304,4 +304,6 @@ img,video{height:auto}
 
   /* tilted marquee lines ka wrapper: bandon ko sirf clip karo, page ko chauda mat hone do */
   .marq-wrap,[class*="marq"]{max-width:100%;overflow:hidden}
+  .review-card{flex:0 0 85vw;max-width:85vw}
+  .quote{max-width:100%}
 }
