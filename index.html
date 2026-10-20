@@ -374,5 +374,31 @@ footer{background:var(--ink);color:#fff;border-radius:44px 44px 0 0;padding:90px
 })();
 </script>
 <script src="script.js"></script>
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var body = document.body;
+  var pre = document.getElementById('pre'), pre2 = document.getElementById('pre2');
+  var num = document.getElementById('pnum'), bar = document.getElementById('pbar');
+  if(!pre){ body.classList.add('loaded'); return; }
+  if(reduce){ pre.style.display='none'; if(pre2) pre2.style.display='none'; body.classList.add('loaded'); return; }
+  body.style.overflow='hidden';
+  var t0 = performance.now(), dur = 2600, shown = 0;
+  (function tick(t){
+    var p = Math.max(0, Math.min((t-t0)/dur, 1));
+    var target = (p>=1) ? 100 : Math.round(p*100);
+    if(target > shown){ shown = shown + 1; }
+    num.textContent = shown;
+    if(bar) bar.style.transform = 'scaleX(' + (shown/100) + ')';
+    if(shown < 100){ requestAnimationFrame(tick); }
+    else {
+      pre.classList.add('rise');
+      if(pre2) pre2.classList.add('rise');
+      setTimeout(function(){ body.classList.add('loaded'); }, 250);
+      setTimeout(function(){ pre.style.display='none'; if(pre2) pre2.style.display='none'; body.style.overflow=''; }, 1800);
+    }
+  })(t0);
+})();
+</script>
 </body>
 </html>
