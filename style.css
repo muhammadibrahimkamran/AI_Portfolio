@@ -308,3 +308,32 @@ img,video{height:auto}
   .review-card{flex:0 0 85vw;max-width:85vw}
   .quote{max-width:100%}
 }
+
+
+/* ===== 100% FORCE MOBILE OVERFLOW FIX ===== */
+@media (max-width: 768px) {
+  html, body {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    position: relative !important;
+  }
+
+  *, *:before, *:after {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  section, .wrap, .cbox, .pcard, .tcard, .svc, .mc, .job, .box, .big-card, .pvis, .info, .cards4, .stack-grid, .more, .tline, .pstack {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  p, h1, h2, h3, h4, span, a {
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+}
