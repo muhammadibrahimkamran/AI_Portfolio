@@ -351,3 +351,15 @@ img,video{height:auto}
   .wrap, section, footer, main { max-width: 100% !important; overflow-x: hidden !important; }
   * { box-sizing: border-box !important; }
 }
+
+
+/* ===== TIMELINE + OVERFLOW FIX (mobile) ===== */
+@media (max-width: 768px) {
+  .tline::before, .tline .fill { left: 9px !important; transform: translateX(0) !important; }
+  .job { grid-template-columns: 1fr !important; padding-left: 38px !important; }
+  .job::after { left: 9px !important; }
+  .job .meta { text-align: left !important; order: 0 !important; }
+  .big-card { max-width: 100% !important; width: 100% !important; box-sizing: border-box !important; transform: none !important; }
+  section, .wrap, .pcard, .svc, .job, .job .box, .tcard, .more .mc, .review-card, .modal-card, .fcols, .info, .cbox, .stack-grid, .cards4, .edu-row, .hero-stage, .marq-wrap { max-width: 100% !important; box-sizing: border-box !important; }
+  html, body { overflow-x: hidden !important; max-width: 100% !important; }
+}

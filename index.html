@@ -286,6 +286,18 @@ footer{background:var(--ink);color:#fff;border-radius:44px 44px 0 0;padding:90px
 .giant{font-size:clamp(2rem,6.2vw,7rem);font-weight:800;letter-spacing:-.06em;line-height:.8;white-space:nowrap;text-align:center;color:transparent;background:linear-gradient(180deg,var(--ind2),#2a1a8a 70%,transparent);-webkit-background-clip:text;background-clip:text;margin:0;padding-top:.1em;padding-bottom:0;width:100%;overflow:hidden;user-select:none}
 @media (max-width:768px){html,body{overflow-x:hidden;max-width:100%}*,*::before,*::after{box-sizing:border-box}section,.wrap,.pcard,.svc,.job,.job .box,.tcard,.more .mc,.review-card,.modal-card,.fcols,.info,.cbox,.stack-grid,.cards4,.edu-row,.hero-stage,.marq-wrap{max-width:100%}img,svg,video{max-width:100%;height:auto}}
 @media (max-width:768px){html,body{overflow-x:hidden;max-width:100%;width:100%}*,*::before,*::after{box-sizing:border-box}section,.wrap,.pcard,.svc,.job,.job .box,.tcard,.more .mc,.review-card,.modal-card,.fcols,.info,.cbox,.stack-grid,.cards4,.edu-row,.hero-stage,.quote,.chip,.role,.marq-wrap{width:100%;max-width:100%;box-sizing:border-box}.cards4,.stack-grid,.pcard,.info,.cbox,.fcols,.more,.job,.edu-row{grid-template-columns:1fr}.wrap{padding:0 16px}.hero-stage{height:auto;min-height:260px}section{overflow-x:hidden}.giant{font-size:clamp(1.2rem,4vw,2rem)}.marq-wrap{padding:20px 0}.review-card{flex:0 0 85vw;max-width:85vw}.quote{max-width:100%}img,svg,video{max-width:100%;height:auto}}
+
+/* ===== TIMELINE + OVERFLOW FIX (mobile) ===== */
+@media (max-width: 768px) {
+  .tline::before, .tline .fill { left: 9px !important; transform: translateX(0) !important; }
+  .job { grid-template-columns: 1fr !important; padding-left: 38px !important; }
+  .job::after { left: 9px !important; }
+  .job .meta { text-align: left !important; order: 0 !important; }
+  .big-card { max-width: 100% !important; width: 100% !important; box-sizing: border-box !important; transform: none !important; }
+  section, .wrap, .pcard, .svc, .job, .job .box, .tcard, .more .mc, .review-card, .modal-card, .fcols, .info, .cbox, .stack-grid, .cards4, .edu-row, .hero-stage, .marq-wrap { max-width: 100% !important; box-sizing: border-box !important; }
+  html, body { overflow-x: hidden !important; max-width: 100% !important; }
+}
+
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
