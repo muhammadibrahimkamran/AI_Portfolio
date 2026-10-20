@@ -24,14 +24,20 @@
 
   function stars(n){ var s=''; for(var i=0;i<5;i++){ s += (i < n) ? '★' : '☆'; } return s; }
 
+  function el(tag, cls, text){ var e=document.createElement(tag); if(cls) e.className=cls; if(text!==undefined) e.textContent=text; return e; }
+
   function card(r){
-    var div = document.createElement('div');
-    div.className = 'review-card';
-    var av = (r.name || '?').trim().charAt(0).toUpperCase();
-    var social = r.social ? '<div class="social">'+r.social+'</div>' : '';
-    div.innerHTML = '<div class="stars">'+stars(r.rating||5)+'</div>'+
-      '<div class="msg">'+(r.message||'')+'</div>'+
-      '<div class="who"><div class="av">'+av+'</div><div class="meta"><b>'+(r.name||'Anonymous')+'</b><small>Client</small></div></div>'+social;
+    var div = el('div','review-card');
+    div.appendChild(el('div','stars', stars(r.rating||5)));
+    div.appendChild(el('div','msg', r.message||''));
+    var who = el('div','who');
+    who.appendChild(el('div','av', (r.name || '?').trim().charAt(0).toUpperCase()));
+    var meta = el('div','meta');
+    meta.appendChild(el('b',null, r.name||'Anonymous'));
+    meta.appendChild(el('small',null,'Client'));
+    who.appendChild(meta);
+    div.appendChild(who);
+    if(r.social) div.appendChild(el('div','social', r.social));
     return div;
   }
 
@@ -41,7 +47,7 @@
     if(!list.length){
       var empty = document.createElement('div');
       empty.className = 'review-card';
-      empty.innerHTML = '<div class="msg">No reviews yet. Be the first to leave one!</div>';
+      empty.appendChild(el('div','msg','No reviews yet. Be the first to leave one!'));
       track.appendChild(empty);
       return;
     }
