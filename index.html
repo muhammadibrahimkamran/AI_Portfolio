@@ -8,7 +8,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#0d0a2b;--ink2:#1a1450;--ind:#4527f5;--ind2:#7059ff;--lav:#efecff;--lav2:#ddd6ff;--cream:#f8ecc9;--txt:#25214a;--mut:#6c6890;--white:#fff;--sans:'Plus Jakarta Sans',system-ui,sans-serif;--serif:'Instrument Serif',Georgia,serif}
+/* ============ TOKENS ============ */
+:root{
+  --ink:#0d0a2b; --ink2:#1a1450; --ind:#4527f5; --ind2:#7059ff;
+  --lav:#efecff; --lav2:#ddd6ff; --cream:#f8ecc9; --txt:#25214a; --mut:#6c6890; --white:#fff;
+  --sans:'Plus Jakarta Sans',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:var(--sans);color:var(--txt);background:var(--lav);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -27,24 +33,35 @@ h2.hd em{font-size:1.12em;letter-spacing:-.01em}
 .btn:hover{transform:translateY(-3px)}
 .btn.pri{background:var(--ind);color:#fff;box-shadow:0 10px 30px -10px var(--ind)}
 .btn.sec{background:rgba(255,255,255,.7);color:var(--ink);border:1px solid var(--lav2)}
+.btn.wht{background:#fff;color:var(--ind)}
+
+/* reveal */
 .rv{opacity:0;transform:translateY(34px);filter:blur(8px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1),filter .9s}
 .rv.in{opacity:1;transform:none;filter:none}
-.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* ============ PRELOADER ============ */
+/* two curtains: dark (#pre, front) and purple (#pre2, behind it). Both lift up one after another. */
 #pre,#pre2{position:fixed;inset:0;border-radius:0}
-#pre{z-index:200;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;transition:transform 1s cubic-bezier(.76,0,.24,1)}
-#pre2{z-index:199;background:linear-gradient(180deg,var(--ind2),var(--ind));transition:transform 1.1s cubic-bezier(.76,0,.24,1) .16s}
-#pre.rise,#pre2.rise{transform:translateY(-101%)}
+#pre{z-index:200;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;transition:transform 1s cubic-bezier(.76,0,.24,1),border-radius 1s}
+#pre2{z-index:199;background:linear-gradient(180deg,var(--ind2),var(--ind));transition:transform 1.1s cubic-bezier(.76,0,.24,1) .16s,border-radius 1.1s cubic-bezier(.76,0,.24,1) .16s}
+#pre.rise,#pre2.rise{transform:translateY(-101%);border-radius:0 0 50% 50%/0 0 14% 14%}
 #pre .tl-l,#pre .tl-r{position:absolute;top:28px;font-size:.7rem;font-weight:700;letter-spacing:.14em}
-#pre .tl-l{left:30px}#pre .tl-r{right:30px;font-weight:500;opacity:.7}
+#pre .tl-l{left:30px}
+#pre .tl-r{right:30px;font-weight:500;opacity:.7}
+/* the name: letters rise from below a mask line IN SYNC with the counter (left to right); at the end it leaves upward */
 #pre .nm{overflow:hidden;max-width:100%;padding:.06em .1em}
 #pre .name{display:block;white-space:nowrap;text-align:center;text-transform:uppercase;font-size:clamp(1.5rem,7.2vw,7.5rem);font-weight:800;letter-spacing:-.05em;line-height:1}
-#pre .ch{display:inline-block;transform:translateY(120%)}
+#pre .ch{display:inline-block;transform:translateY(120%)}   /* hidden below the mask; script lifts each letter as the counter grows */
 #pre .ch.dot{color:var(--ind2)}
 #pre.out .ch{transform:translateY(-120%)!important;transition:transform .7s cubic-bezier(.7,0,.84,0)}
+/* percentage counter: big number, fixed 3-digit width so nothing shifts when it reaches 100. */
 #pre .ft{position:absolute;left:30px;right:30px;bottom:26px;display:flex;justify-content:space-between;align-items:flex-end;font-size:.72rem;opacity:.9}
 #pre .cnt{font-size:clamp(2rem,5vw,3.6rem);font-weight:700;letter-spacing:-.04em;line-height:1}
 #pre .cnt small{font-size:.4em;color:var(--ind2)}
 #pbar{position:absolute;left:0;bottom:0;height:3px;width:100%;background:var(--ind2);transform:scaleX(0);transform-origin:left}
+
+/* ============ NAV ============ */
 nav{position:fixed;top:16px;left:50%;transform:translate(-50%,-140%);z-index:90;display:flex;align-items:center;gap:4px;padding:6px;border-radius:99px;background:rgba(18,14,52,.92);backdrop-filter:blur(14px);box-shadow:0 14px 40px -12px rgba(13,10,43,.6);transition:transform .9s cubic-bezier(.2,.8,.2,1) .2s}
 body.loaded nav{transform:translate(-50%,0)}
 nav a{font-size:.8rem;font-weight:600;color:#c9c3ff;padding:9px 16px;border-radius:99px;transition:background .3s,color .3s}
@@ -52,13 +69,8 @@ nav a:hover{color:#fff}
 nav a.on{background:var(--ind);color:#fff;box-shadow:0 0 22px -2px var(--ind2)}
 nav .logo{display:flex;align-items:center;gap:9px;color:#fff;font-weight:800;font-size:.78rem;padding:0 14px;letter-spacing:.02em;white-space:nowrap}
 nav .logo b{width:30px;height:30px;border-radius:9px;background:var(--cream);color:var(--ink);display:grid;place-items:center;font-size:.72rem}
-.burger{display:none;order:1;width:40px;height:40px;border:0;border-radius:50%;background:rgba(255,255,255,.1);cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px;flex:none}
-.burger span{display:block;width:18px;height:2px;border-radius:2px;background:#fff;transition:transform .3s,opacity .3s}
-nav.open .burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-nav.open .burger span:nth-child(2){opacity:0}
-nav.open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-body{-webkit-text-size-adjust:100%}
-img,svg,video{max-width:100%}
+
+/* ============ HERO ============ */
 #home{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;padding-top:110px;background:radial-gradient(70% 55% at 50% 100%,#d9d0ff 0,transparent 70%),linear-gradient(#f4f1ff,#e9e4ff);overflow:hidden;text-align:center}
 .hello{display:inline-block;background:#fff;border:1.5px solid var(--ink);border-radius:99px;padding:5px 16px;font-size:.78rem;font-weight:600;margin-bottom:14px}
 #home h1{font-size:clamp(2.4rem,6.4vw,5rem);font-weight:800;letter-spacing:-.04em;line-height:1.02;color:#2a2650}
@@ -68,7 +80,7 @@ img,svg,video{max-width:100%}
 .arch{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:min(430px,78vw);height:min(260px,60%);background:linear-gradient(180deg,var(--ind2),var(--ind));border-radius:300px 300px 0 0}
 .hero-stage .phone{position:absolute;left:50%;bottom:-60px;transform:translateX(-50%) rotate(-3deg);width:190px;height:380px}
 .quote,.chip,.role{position:absolute;background:rgba(255,255,255,.8);backdrop-filter:blur(8px);border:1px solid #fff;border-radius:16px;box-shadow:0 18px 40px -18px rgba(69,39,245,.45);text-align:left}
-.quote{left:0;top:10px;max-width:250px;padding:16px 18px;font-size:.78rem;color:var(--mut);background:transparent;border:0;box-shadow:none}
+.quote{left:0;top:10px;max-width:250px;padding:16px 18px;font-size:.78rem;color:var(--mut);background:transparent;border:0;box-shadow:none;backdrop-filter:none}
 .quote::before{content:"\201C";display:block;font-family:var(--serif);font-size:3rem;line-height:.6;color:var(--ind);margin-bottom:8px}
 .role{right:0;top:30px;padding:0;background:transparent;border:0;box-shadow:none;font-weight:800;font-size:clamp(1.3rem,3vw,2.2rem);letter-spacing:-.03em;color:#2a2650}
 .role em{font-size:1.15em}
@@ -76,12 +88,24 @@ img,svg,video{max-width:100%}
 .chip.c1{left:12%;bottom:90px}.chip.c2{right:10%;bottom:130px;animation-delay:-2s}.chip.c3{right:10%;bottom:80px;animation-delay:-1s}
 .chip i{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.2)}
 @keyframes fl{50%{transform:translateY(-12px)}}
+#home .stagger>*{opacity:0;transform:translateY(30px);filter:blur(6px);transition:all .9s cubic-bezier(.2,.8,.2,1)}
+body.loaded #home .stagger>*{opacity:1;transform:none;filter:none}
+body.loaded #home .stagger>*:nth-child(2){transition-delay:.12s}
+body.loaded #home .stagger>*:nth-child(3){transition-delay:.24s}
+body.loaded #home .stagger>*:nth-child(4){transition-delay:.36s}
+.hero-stage{opacity:0;transform:translateY(80px);transition:all 1.2s cubic-bezier(.2,.8,.2,1) .35s}
+body.loaded .hero-stage{opacity:1;transform:none}
 .marq-wrap{position:relative;overflow:hidden;min-height:220px;background:#e9e4ff;padding:40px 0}
-.marq{position:absolute;left:-10%;width:120%;top:50%;height:60px;display:flex;align-items:center;background:var(--ind);color:#fff;overflow:hidden;white-space:nowrap;z-index:2;font-weight:600;font-size:.9rem;transform:translateY(-50%) rotate(3deg)}
+.marq{position:absolute;left:-10%;width:120%;top:50%;height:60px;display:flex;align-items:center;background:var(--ind);color:#fff;overflow:hidden;white-space:nowrap;z-index:2;font-weight:600;font-size:.9rem;margin:0;transform:translateY(-50%) rotate(3deg)}
 .marq.alt{background:var(--cream);color:var(--ink);z-index:1;transform:translateY(-50%) rotate(-3deg)}
+.marq.alt div{animation:mq 36s linear infinite reverse}
+@media (max-width:640px){.marq{transform:translateY(-50%) rotate(2deg)}.marq.alt{transform:translateY(-50%) rotate(-2deg)}}
+@media (prefers-reduced-motion: reduce){.marq div{animation:none}}
 .marq div{display:inline-flex;gap:28px;padding-right:28px;animation:mq 28s linear infinite}
 .marq span::after{content:"\2022";margin-left:28px;opacity:.6}
 @keyframes mq{to{transform:translateX(-50%)}}
+
+/* phone mockup */
 .phone{background:#0c0a22;border-radius:34px;padding:9px;box-shadow:0 30px 60px -20px rgba(13,10,43,.55),inset 0 0 0 2px #2b2760;position:relative}
 .phone .notch{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:58px;height:16px;background:#000;border-radius:99px;z-index:2}
 .scr{height:100%;border-radius:26px;background:#f6f4ff;padding:34px 12px 12px;overflow:hidden;display:flex;flex-direction:column;gap:9px;font-size:.62rem}
@@ -94,153 +118,199 @@ img,svg,video{max-width:100%}
 .s-row{display:flex;gap:8px;align-items:center;background:#fff;border-radius:11px;padding:8px}
 .s-row span{width:24px;height:24px;border-radius:8px;background:var(--lav2)}
 .s-row p{flex:1;display:grid;gap:4px}.s-row b{height:5px;border-radius:4px;background:#e4e0fa}.s-row b+b{width:60%}
-#about{position:relative;background:radial-gradient(60% 50% at 80% 0,rgba(112,89,255,.35),transparent 70%),var(--ink);color:#fff;padding:120px 0 130px;border-radius:44px 44px 0 0;z-index:4}
+
+/* ============ SERVICES (dark) ============ */
+#about{position:relative;margin-top:0;background:radial-gradient(60% 50% at 80% 0,rgba(112,89,255,.35),transparent 70%),var(--ink);color:#fff;padding:120px 0 130px;border-radius:44px 44px 0 0;z-index:4}
 #about .top{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-bottom:56px}
 #about .sub{color:#aaa4dd}
+#about h2 em{color:var(--ind2)}
 .cards4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-.svc{position:relative;background:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:26px;min-height:330px;display:flex;flex-direction:column}
-.svc .ic{width:46px;height:46px;border-radius:14px;background:var(--ind);display:grid;place-items:center;margin-bottom:auto}
-.svc .ic svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.8}
+.svc{position:relative;background:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:26px;min-height:330px;display:flex;flex-direction:column;transition:transform .45s cubic-bezier(.2,.8,.2,1),background .45s,border-color .45s,box-shadow .45s}
+.svc:hover{transform:translateY(-14px);background:linear-gradient(160deg,rgba(112,89,255,.35),rgba(255,255,255,.06));border-color:rgba(160,145,255,.6);box-shadow:0 30px 60px -25px var(--ind)}
+.svc .ic{width:46px;height:46px;border-radius:14px;background:var(--ind);display:grid;place-items:center;box-shadow:0 0 28px -4px var(--ind2);margin-bottom:auto}
+.svc .ic svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .svc .n{position:absolute;right:24px;top:24px;font-size:.7rem;color:#8f89c9}
-.svc h3{font-size:1.15rem;margin:60px 0 8px}
+.svc h3{font-size:1.15rem;margin:60px 0 8px;letter-spacing:-.02em}
 .svc p{font-size:.82rem;color:#aaa4dd;margin-bottom:16px}
 .pills{display:flex;flex-wrap:wrap;gap:6px}
 .pills span{font-size:.68rem;font-weight:600;padding:5px 10px;border-radius:99px;background:rgba(255,255,255,.1);color:#d6d1ff}
+.light .pills span,.pcard .pills span{background:var(--lav);color:var(--ind)}
+
+/* ============ WHY HIRE ============ */
 #why{padding:120px 0;background:#fdfcf7}
 #why .grid{display:grid;grid-template-columns:1fr 1.15fr;gap:60px;align-items:start}
-.big-card{position:relative;background:linear-gradient(150deg,var(--ind),#2d14c9);color:#fff;border-radius:28px;padding:34px;box-shadow:0 40px 80px -35px var(--ind);transform:rotate(-2deg)}
+.big-card{position:relative;background:linear-gradient(150deg,var(--ind),#2d14c9);color:#fff;border-radius:28px;padding:34px;box-shadow:0 40px 80px -35px var(--ind);transform:rotate(-2deg);transition:transform .6s}
+.big-card:hover{transform:rotate(0)}
 .big-card h3{font-size:clamp(1.7rem,3vw,2.3rem);letter-spacing:-.035em;line-height:1.1;margin-bottom:22px}
+.big-card h3 em{color:#cfc7ff}
 .big-card li{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.12);border-radius:14px;padding:13px 16px;margin-top:10px;font-weight:600;font-size:.9rem}
 .big-card li::before{content:"\2713";width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.25);display:grid;place-items:center;font-size:.7rem;flex:none}
-.award{position:absolute;right:-18px;top:-24px;background:var(--cream);color:var(--ink);padding:10px 14px;border-radius:16px;font-size:.7rem;font-weight:700;box-shadow:0 18px 30px -14px rgba(0,0,0,.4);transform:rotate(3deg)}
+.award{position:absolute;right:-18px;top:-24px;background:var(--cream);color:var(--ink);padding:10px 14px;border-radius:16px;font-size:.7rem;font-weight:700;box-shadow:0 18px 30px -14px rgba(0,0,0,.4);animation:fl 5s ease-in-out infinite;transform:rotate(3deg)}
+.award small{display:block;font-weight:500;opacity:.7}
 #why p.lead{color:var(--mut);margin:18px 0 26px;max-width:520px}
 .info{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:26px}
 .info div{background:var(--lav);border-radius:16px;padding:14px 16px;font-size:.82rem}
 .info small{display:block;color:var(--mut);font-size:.66rem;font-weight:600;margin-bottom:2px}
 .stats{display:flex;gap:34px;margin:6px 0 28px;flex-wrap:wrap}
-.stats b{display:block;font-size:2.6rem;font-weight:800;color:var(--ind)}
+.stats b{display:block;font-size:2.6rem;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--ind)}
 .stats span{font-size:.78rem;color:var(--mut)}
+
+/* ============ TECH STACK ============ */
 #skills{padding:120px 0;background:linear-gradient(#f4f1ff,#e9e4ff)}
 #skills .top,#exp .top,#projects .top,#edu .top{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-bottom:50px}
 .stack-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.tcard{background:rgba(255,255,255,.7);backdrop-filter:blur(10px);border:1px solid #fff;border-radius:24px;padding:26px;box-shadow:0 20px 50px -30px rgba(69,39,245,.5)}
-.tcard h3{font-size:1rem;margin-bottom:4px}
-.tcard p{font-size:.8rem;color:var(--ink2);margin-bottom:16px}
+.tcard{background:rgba(255,255,255,.7);backdrop-filter:blur(10px);border:1px solid #fff;border-radius:24px;padding:26px;box-shadow:0 20px 50px -30px rgba(69,39,245,.5);transition:all 0.6s ease-in-out}
+.tcard:hover{transform:translateY(-8px);box-shadow:0 30px 60px -28px rgba(69,39,245,.65);background:linear-gradient(160deg,var(--ind),#2d14c9);color:#fff}
+.tcard:hover p{color:#d3ccff}.tcard:hover .pills span{background:rgba(255,255,255,.16);color:#fff}
+.tcard h3{font-size:1rem;margin-bottom:4px}.tcard p{font-size:.8rem;color:var(--ink2);margin-bottom:16px}
 .tcard .pills span{background:var(--lav2);color:var(--ink);font-weight:700}
+
+/* ============ EXPERIENCE ============ */
 #exp{padding:120px 0;background:#fdfcf7}
 .tline{position:relative;max-width:980px;margin:0 auto}
 .tline::before,.tline .fill{content:"";position:absolute;left:50%;top:0;width:2px;transform:translateX(-50%);background:var(--lav2)}
-.tline .fill{background:var(--ind);height:var(--p,0%);z-index:1}
+.tline .fill{background:var(--ind);height:var(--p,0%);box-shadow:0 0 14px var(--ind2);z-index:1}
 .job{display:grid;grid-template-columns:1fr 1fr;gap:70px;margin-bottom:70px;position:relative}
 .job::after{content:"";position:absolute;left:50%;top:14px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--ind);transform:translateX(-50%);z-index:2}
 .job .meta{text-align:right}
 .job:nth-child(even) .meta{order:2;text-align:left}
-.job .meta h3{font-size:1.6rem;font-weight:800}
+.job .meta h3{font-size:1.6rem;font-weight:800;letter-spacing:-.03em}
 .job .meta small{color:var(--ink2);display:block;font-size:.78rem}
-.job .box{background:#fdfcf7;border:1px solid var(--lav2);border-radius:22px;padding:24px}
+.job .box{background:#fdfcf7;border:1px solid var(--lav2);border-radius:22px;padding:24px;transition:all 0.6s ease-in-out}
+.job .box:hover{transform:translateY(-6px);box-shadow:0 26px 50px -30px var(--ind);background:linear-gradient(160deg,var(--ind),#2d14c9);color:#fff}
+.job .box:hover h4{color:#fff}.job .box:hover li{color:#d3ccff}.job .box:hover li::before{background:#fff}.job .box:hover .pills span{background:rgba(255,255,255,.16);color:#fff}
 .job .box h4{font-size:1rem;margin-bottom:10px}
 .job .box li{font-size:.84rem;color:var(--ink2);margin-bottom:8px;padding-left:16px;position:relative}
 .job .pills span{background:var(--lav2);color:var(--ink);font-weight:700}
+.job .box li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--ind)}
+.job .pills{margin-top:14px}
+
+/* ============ PROJECTS ============ */
 #projects{padding:120px 0 90px;background:linear-gradient(#f4f1ff,#e6e0ff)}
 .pstack{padding-bottom:30px}
-.pcard{position:sticky;top:calc(92px + var(--i)*20px);display:grid;grid-template-columns:1fr 1fr;gap:30px;background:#fdfcf7;border:1px solid var(--lav2);border-radius:30px;padding:34px;margin-bottom:50px}
+.pcard{position:sticky;top:calc(92px + var(--i)*20px);display:grid;grid-template-columns:1fr 1fr;gap:30px;background:#fdfcf7;border:1px solid var(--lav2);border-radius:30px;padding:34px;margin-bottom:50px;box-shadow:0 30px 70px -40px rgba(69,39,245,.55);min-height:430px}
 .tg{display:inline-block;font-size:.66rem;font-weight:700;padding:4px 10px;border-radius:99px;margin-right:6px}
 .tg.y{background:var(--cream);color:#6a5200}.tg.g{background:#d9f7e4;color:#106b3a}
-.pcard h3{font-size:clamp(1.8rem,3.2vw,2.6rem);font-weight:800;margin:16px 0}
+.pcard h3{font-size:clamp(1.8rem,3.2vw,2.6rem);font-weight:800;letter-spacing:-.04em;margin:16px 0}
 .pcard .stat{background:var(--lav);border-radius:14px;padding:12px 16px;font-size:.84rem;color:var(--mut);margin-bottom:16px}
-.pcard .stat b{font-size:1.7rem;color:var(--ind);margin-right:8px}
+.pcard .stat b{font-size:1.7rem;color:var(--ind);margin-right:8px;letter-spacing:-.03em}
 .pcard li{font-size:.84rem;color:var(--mut);margin-bottom:8px;padding-left:16px;position:relative}
+.pcard li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--ind)}
+.pcard .pills{margin-top:16px}
 .pvis{border-radius:22px;display:grid;place-items:center;overflow:hidden;position:relative;min-height:320px}
-.pvis img{width:100%;height:100%;object-fit:contain;padding:14px;border-radius:22px}
+.pvis .phone{width:190px;height:360px;transform:translateY(40px) rotate(4deg);transition:transform .6s}
+.pcard:hover .pvis .phone{transform:translateY(20px) rotate(0)}
+.pvis img{width:100%;height:100%;object-fit:contain;padding:14px;border-radius:22px;transition:transform .6s ease}
+.pcard:hover .pvis img{transform:scale(1.04)}
+.wf{display:grid;place-items:center;width:100%;height:100%}
+.wf svg{filter:drop-shadow(0 0 12px rgba(255,255,255,.3));transition:transform .6s ease}
+.pcard:hover .wf svg{transform:scale(1.06)}
+.v1{background:linear-gradient(140deg,#ddd6ff,#b9acff)}
+.v2{background:linear-gradient(140deg,#fbeec6,#f3d98d)}
+.v3{background:linear-gradient(140deg,#cfe9ff,#9fc9ff)}
+.v4{background:linear-gradient(140deg,#d7f5e5,#a4e2c1)}
 .more{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px}
-.more .mc{display:flex;gap:18px;align-items:center;background:rgba(255,255,255,.75);border:1px solid #fff;border-radius:24px;padding:22px}
+.more .mc{display:flex;gap:18px;align-items:center;background:rgba(255,255,255,.75);border:1px solid #fff;border-radius:24px;padding:22px;transition:transform .4s}
+.more .mc:hover{transform:translateY(-6px)}
 .more .th{width:120px;height:90px;border-radius:14px;background:linear-gradient(135deg,var(--ink2),var(--ind));flex:none;object-fit:cover}
+.more h4{font-size:1.05rem}.more p{font-size:.8rem;color:var(--mut);margin:2px 0 8px}
+.more a{font-size:.78rem;font-weight:700;color:var(--ind)}
+
+/* ============ EDUCATION ============ */
 #edu{padding:120px 0;background:#fdfcf7}
-.edu-row{display:grid;grid-template-columns:160px 1fr auto;gap:30px;align-items:center;padding:26px 0;border-top:1px solid var(--lav2)}
+.edu-row{display:grid;grid-template-columns:160px 1fr auto;gap:30px;align-items:center;padding:26px 0;border-top:1px solid var(--lav2);transition:padding .4s,background .4s}
+.edu-row:last-child{border-bottom:1px solid var(--lav2)}
+.edu-row:hover{padding-left:20px;background:linear-gradient(90deg,var(--lav),transparent)}
 .edu-row .yr{font-family:var(--serif);font-style:italic;font-size:3.2rem;color:var(--ind);line-height:1}
+.edu-row h3{font-size:1.2rem}.edu-row p{font-size:.85rem;color:var(--mut)}
+.edu-row .tg{background:var(--lav);color:var(--ind);margin:0}
+
+/* ============ CONTACT ============ */
 #contact{padding:100px 0 80px;background:#fdfcf7}
-.cbox{display:grid;grid-template-columns:1fr 1fr;gap:34px;background:linear-gradient(150deg,var(--ind),#2a12c2);color:#fff;border-radius:36px;padding:clamp(24px,4vw,54px)}
+.cbox{display:grid;grid-template-columns:1fr 1fr;gap:34px;background:linear-gradient(150deg,var(--ind),#2a12c2);color:#fff;border-radius:36px;padding:clamp(24px,4vw,54px);box-shadow:0 50px 90px -45px var(--ind)}
+.cbox h2{font-size:clamp(2.2rem,4.6vw,3.6rem);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-bottom:14px}
+.cbox h2 em{color:#d7d0ff}
+.cbox>div:first-child>p{color:#d3ccff;font-size:.92rem;margin-bottom:24px;max-width:400px}
 .clinks{display:grid;gap:10px}
-.clinks a{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.12);border-radius:16px;padding:14px 18px;font-weight:600;font-size:.88rem}
-form{background:#fdfcf7;color:var(--txt);border-radius:24px;padding:26px;display:grid;gap:12px}
+.clinks a{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.12);border-radius:16px;padding:14px 18px;font-weight:600;font-size:.88rem;transition:background .3s,transform .3s}
+.clinks a:hover{background:rgba(255,255,255,.22);transform:translateX(6px)}
+.clinks small{display:block;font-weight:500;font-size:.66rem;opacity:.7}
+form{background:#fdfcf7;color:var(--txt);border-radius:24px;padding:26px;display:grid;gap:12px;align-content:start}
+form h3{font-size:1.05rem}
 form .r2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 label{font-size:.7rem;font-weight:700;color:var(--mut);display:grid;gap:5px}
-input,textarea{font:inherit;font-size:.85rem;padding:12px 14px;border-radius:12px;border:1.5px solid var(--lav2);background:var(--lav);color:var(--txt);outline:0}
+input,textarea{font:inherit;font-size:.85rem;padding:12px 14px;border-radius:12px;border:1.5px solid var(--lav2);background:var(--lav);color:var(--txt);outline:0;transition:border-color .25s,background .25s}
+input:focus,textarea:focus{border-color:var(--ind);background:#fff}
 textarea{min-height:110px;resize:vertical}
+#fmsg{font-size:.78rem;font-weight:600;color:#106b3a;min-height:1em}
+
+/* ============ TESTIMONIALS ============ */
 #testimonials{padding:120px 0;background:#fdfcf7}
 .review-marquee{overflow:hidden;position:relative;padding:10px 0;margin-top:24px}
 .review-track{display:flex;gap:18px;animation:reviewScroll 40s linear infinite;width:max-content}
-.review-card{flex:0 0 320px;background:#fff;border:1px solid var(--lav2);border-radius:24px;padding:22px}
+.review-card{flex:0 0 320px;background:#fff;border:1px solid var(--lav2);border-radius:24px;padding:22px;box-shadow:0 20px 50px -30px rgba(69,39,245,.4)}
 .review-card .stars{color:#f59e0b;font-size:1.1rem;letter-spacing:2px;margin-bottom:8px}
-.review-card .msg{font-size:.88rem;color:var(--txt);margin-bottom:12px}
+.review-card .msg{font-size:.88rem;color:var(--txt);margin-bottom:12px;line-height:1.5}
 .review-card .who{display:flex;align-items:center;gap:10px}
 .review-card .who .av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--ind),var(--ind2));color:#fff;display:grid;place-items:center;font-weight:700;font-size:.8rem}
+.review-card .who .meta small{display:block;color:var(--mut);font-size:.7rem}
+.review-card .who .meta b{font-size:.85rem}
+.review-card .social{font-size:.72rem;color:var(--ind);margin-top:6px}
 .insta-banner{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af);color:#fff;font-weight:600;font-size:.85rem;text-decoration:none;margin:8px 0 14px}
+/* modal */
 .modal{position:fixed;inset:0;z-index:400;background:rgba(13,10,43,.55);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px}
 .modal.open{display:flex}
-.modal-card{background:#fff;border-radius:24px;padding:26px;width:min(460px,100%);position:relative}
+.modal-card{background:#fff;border-radius:24px;padding:26px;width:min(460px,100%);position:relative;box-shadow:0 40px 80px -30px rgba(13,10,43,.6)}
+.modal-card h3{margin-bottom:14px}
 .modal-close{position:absolute;top:12px;right:16px;border:0;background:transparent;font-size:1.6rem;cursor:pointer;color:var(--mut)}
-footer{background:var(--ink);color:#fff;border-radius:44px 44px 0 0;padding:90px 0 .5rem;position:relative}
-.fhead{display:flex;justify-content:space-between;align-items:center;gap:30px;margin-bottom:60px}
-.totop{width:96px;height:96px;border-radius:50%;background:var(--ind);display:grid;place-items:center;font-size:.72rem;font-weight:700;color:#fff;border:0;cursor:pointer}
-.fcols{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:30px;padding-bottom:40px}
-.fbot{display:flex;justify-content:space-between;font-size:.74rem;color:#8f89c9;border-top:1px solid rgba(255,255,255,.1);padding:18px 0}
-.giant{font-size:clamp(2rem,6.2vw,7rem);font-weight:800;letter-spacing:-.06em;line-height:.8;text-align:center;color:transparent;background:linear-gradient(180deg,var(--ind2),#2a1a8a 70%,transparent);-webkit-background-clip:text;background-clip:text;width:100%;overflow:hidden;user-select:none}
+.star-picker{display:flex;gap:6px;font-size:1.6rem}
+.star-picker button{border:0;background:transparent;cursor:pointer;color:#d1d5db;transition:color .2s}
+.star-picker button.active{color:#f59e0b}
 @keyframes reviewScroll{to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion: reduce){.review-track{animation:none}}
-@media (max-width:768px){
-  section{scroll-margin-top:76px}
-  .wrap{width:100%;padding:0 18px}
-  nav{width:calc(100% - 24px);max-width:460px;top:12px;flex-wrap:wrap;justify-content:space-between;border-radius:28px;padding:6px}
-  nav .logo{order:0;margin-right:auto;padding:0 8px}
-  .burger{display:inline-flex}
-  nav a:not(.logo){display:none;order:2;flex:1 1 100%;padding:13px 18px;font-size:.92rem;border-radius:16px}
-  nav.open{padding-bottom:10px}
-  nav.open a:not(.logo){display:block}
-  h2.hd{font-size:clamp(1.9rem,9vw,2.6rem)}
-  .cards4,.stack-grid{grid-template-columns:1fr}
-  #why .grid{grid-template-columns:1fr;gap:40px}
-  .big-card{transform:none;padding:26px}
-  .award{right:10px;top:-18px}
-  .info{grid-template-columns:1fr}
-  .tline::before,.tline .fill{left:9px}
-  .job{grid-template-columns:1fr;gap:14px;padding-left:38px}
-  .job::after{left:9px}
-  .job .meta{order:0;text-align:left}
-  .pcard{position:static;grid-template-columns:1fr;gap:20px;padding:22px;min-height:0}
-  .more{grid-template-columns:1fr}
-  .edu-row{grid-template-columns:1fr;gap:8px}
-  .cbox{grid-template-columns:1fr;padding:22px}
-  form .r2{grid-template-columns:1fr}
-  .review-card{flex:0 0 82vw;max-width:82vw}
-  .fcols{grid-template-columns:1fr 1fr;gap:26px}
-  .fcols>div:first-child{grid-column:1/-1}
-  .giant{font-size:9vw}
-}
-@media (max-width:768px){
-  html,body{overflow-x:hidden;max-width:100%;width:100%}*,*::before,*::after{box-sizing:border-box}section,.wrap,.pcard,.svc,.job,.job .box,.tcard,.more .mc,.review-card,.modal-card,.fcols,.info,.cbox,.stack-grid,.cards4,.edu-row,.hero-stage,.quote,.chip,.role,.marq-wrap{width:100%;max-width:100%;box-sizing:border-box}.cards4,.stack-grid,.pcard,.info,.cbox,.fcols,.more,.job,.edu-row{grid-template-columns:1fr}.wrap{padding:0 16px}.hero-stage{height:auto;min-height:260px}section{overflow-x:hidden}.giant{font-size:clamp(1.2rem,4vw,2rem)}.marq-wrap{padding:20px 0}.review-card{flex:0 0 85vw;max-width:85vw}.quote{max-width:100%}img,svg,video{max-width:100%;height:auto}
-}
+
+/* ============ FOOTER ============ */
+footer{background:var(--ink);color:#fff;border-radius:44px 44px 0 0;padding:90px 0 .5rem;overflow:hidden;position:relative}
+.fhead{display:flex;justify-content:space-between;align-items:center;gap:30px;margin-bottom:60px}
+.fhead h2{font-size:clamp(2rem,6vw,4.6rem);font-weight:800;letter-spacing:-.04em;line-height:1.02}
+.fhead h2 em{color:var(--ind2)}
+.totop{width:96px;height:96px;flex:none;border-radius:50%;background:var(--ind);display:grid;place-items:center;font-size:.72rem;font-weight:700;text-align:center;box-shadow:0 0 50px -6px var(--ind2);transition:transform .4s;cursor:pointer;border:0;color:#fff;font-family:inherit}
+.totop:hover{transform:translateY(-8px) scale(1.06)}
+.fcols{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:30px;padding-bottom:40px}
+.fcols p{font-size:.84rem;color:#aaa4dd;max-width:300px;margin-top:12px}
+.fcols h5{font-size:.74rem;color:#8f89c9;margin-bottom:12px}
+.fcols li{font-size:.86rem;margin-bottom:8px}.fcols li a:hover{color:var(--ind2)}
+.fcols .logo{display:flex;align-items:center;gap:10px;font-weight:800}
+.fcols .logo b{width:32px;height:32px;border-radius:9px;background:var(--cream);color:var(--ink);display:grid;place-items:center;font-size:.76rem}
+.fbot{display:flex;justify-content:space-between;font-size:.74rem;color:#8f89c9;border-top:1px solid rgba(255,255,255,.1);padding:18px 0}
+.giant{font-size:clamp(2rem,6.2vw,7rem);font-weight:800;letter-spacing:-.06em;line-height:.8;white-space:nowrap;text-align:center;color:transparent;background:linear-gradient(180deg,var(--ind2),#2a1a8a 70%,transparent);-webkit-background-clip:text;background-clip:text;margin:0;padding-top:.1em;padding-bottom:0;width:100%;overflow:hidden;user-select:none}
+@media (max-width:768px){html,body{overflow-x:hidden;max-width:100%;width:100%}*,*::before,*::after{box-sizing:border-box}section,.wrap,.pcard,.svc,.job,.job .box,.tcard,.more .mc,.review-card,.modal-card,.fcols,.info,.cbox,.stack-grid,.cards4,.edu-row,.hero-stage,.quote,.chip,.role,.marq-wrap{width:100%;max-width:100%;box-sizing:border-box}.cards4,.stack-grid,.pcard,.info,.cbox,.fcols,.more,.job,.edu-row{grid-template-columns:1fr}.wrap{padding:0 16px}.hero-stage{height:auto;min-height:260px}section{overflow-x:hidden}.giant{font-size:clamp(1.2rem,4vw,2rem)}.marq-wrap{padding:20px 0}.review-card{flex:0 0 85vw;max-width:85vw}.quote{max-width:100%}img,svg,video{max-width:100%;height:auto}}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 <body>
+
+<!-- ============ PRELOADER ============ -->
 <div id="pre2" aria-hidden="true"></div>
 <div id="pre" aria-hidden="true">
   <span class="tl-l">PORTFOLIO</span>
   <span class="tl-r">©2026</span>
   <div class="nm"><span class="name" aria-label="Muhammad Ibrahim">MUHAMMAD IBRAHIM<i>.</i></span></div>
-  <div class="ft"><div>Agentic AI Developer</div><div class="cnt"><span id="pnum">0</span><small>%</small></div></div>
+  <div class="ft"><div>Agentic AI Developer — Building Intelligent Solutions for Tomorrow</div><div class="cnt"><span id="pnum">0</span><small>%</small></div></div>
   <div id="pbar"></div>
 </div>
+
+<!-- ============ NAV ============ -->
 <nav aria-label="Main">
   <a href="#home" class="on">Home</a><a href="#about">About</a><a href="#skills">Skills</a>
   <a href="#home" class="logo"><b>MI</b><span>MUHAMMAD IBRAHIM.</span></a>
   <a href="#exp">Experience</a><a href="#projects">Projects</a><a href="#contact">Contact</a>
-  <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </nav>
+
 <main>
+<!-- ============ HERO ============ -->
 <section id="home">
   <div class="stagger">
     <span class="hello">AI Automation Expert 🤖</span>
@@ -248,157 +318,356 @@ footer{background:var(--ink);color:#fff;border-radius:44px 44px 0 0;padding:90px
     <div class="hero-btns"><a class="btn pri" href="#projects">View Workflows</a><a class="btn sec" href="#contact">Hire me</a></div>
   </div>
   <div class="hero-stage">
-    <div class="quote">Building intelligent automated agents.</div>
+    <div class="quote">Building intelligent automated agents and seamless digital workflows.</div>
     <div class="role">AI <em>Automation</em></div>
     <div class="arch"></div>
     <div data-phone class="phone-slot"></div>
     <div class="chip c1"><i></i>Available for work</div>
     <div class="chip c2">n8n · Python · AI Agents</div>
-    <div class="chip c3">Chatbot Developer</div>
+<div class="chip c3">Chatbot Developer</div>
   </div>
 </section>
-<div class="marq-wrap"><div class="marq" aria-hidden="true"><div id="mq1"></div></div><div class="marq alt" aria-hidden="true"><div id="mq2"></div></div></div>
+
+<!-- Running Skills Marquee Line -->
+<div class="marq-wrap">
+  <div class="marq" aria-hidden="true"><div id="mq1"></div></div>
+  <div class="marq alt" aria-hidden="true"><div id="mq2"></div></div>
+</div>
+
+<!-- ============ SERVICES ============ -->
 <section id="about">
   <div class="wrap">
     <div class="top">
       <div class="rv"><span class="eyebrow">What I do</span><h2 class="hd">What I <em>build</em> for you</h2></div>
-      <p class="sub rv d1">From custom n8n automation pipelines to intelligent AI agents.</p>
+      <p class="sub rv d1">From custom n8n automation pipelines to intelligent AI agents — scaling your digital operations.</p>
     </div>
     <div class="cards4">
-      <article class="svc rv"><span class="n">01</span><div class="ic"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div><h3>Workflow Automation</h3><p>Automated n8n pipelines.</p><div class="pills"><span>n8n</span><span>Python</span><span>APIs</span></div></article>
-      <article class="svc rv d1"><span class="n">02</span><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01"/></svg></div><h3>Agentic AI Solutions</h3><p>Smart AI agents built to reason.</p><div class="pills"><span>Claude</span><span>Gemini</span></div></article>
-      <article class="svc rv d2"><span class="n">03</span><div class="ic"><svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 010-8 5 5 0 019.6-1A4.5 4.5 0 0117 18z"/></svg></div><h3>Full-Stack &amp; Code</h3><p>Robust web applications.</p><div class="pills"><span>JavaScript</span><span>HTML/CSS</span></div></article>
-      <article class="svc rv d3"><span class="n">04</span><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></div><h3>System Integrations</h3><p>Connecting your platforms.</p><div class="pills"><span>Webhooks</span><span>REST</span></div></article>
+      <article class="svc rv"><span class="n">01</span><div class="ic"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div><h3>Workflow Automation</h3><p>Automated n8n pipelines and scripts that handle tasks seamlessly.</p><div class="pills"><span>n8n</span><span>Python</span><span>APIs</span></div></article>
+      <article class="svc rv d1"><span class="n">02</span><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01"/></svg></div><h3>Agentic AI Solutions</h3><p>Smart AI agents built to reason, execute tasks, and streamline operations.</p><div class="pills"><span>Claude</span><span>Gemini</span><span>LangChain</span></div></article>
+      <article class="svc rv d2"><span class="n">03</span><div class="ic"><svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 010-8 5 5 0 019.6-1A4.5 4.5 0 0117 18z"/></svg></div><h3>Full-Stack &amp; Code</h3><p>Robust web applications and custom scripts tailored to your brand.</p><div class="pills"><span>JavaScript</span><span>HTML/CSS</span><span>Node.js</span></div></article>
+      <article class="svc rv d3"><span class="n">04</span><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></div><h3>System Integrations</h3><p>Connecting your favorite platforms and apps for effortless data flow.</p><div class="pills"><span>Webhooks</span><span>REST</span><span>Automation</span></div></article>
     </div>
   </div>
 </section>
+
+<!-- ============ WHY HIRE ============ -->
 <section id="why">
   <div class="wrap grid">
     <div class="big-card rv">
-      <div class="award">Top Automation Expert</div>
+      <div class="award">Top Automation Expert<small>Innovative Solutions</small></div>
       <h3>Building intelligent systems <em>that</em> work for you.</h3>
-      <ul><li>Custom workflow automation</li><li>Agentic AI integration</li><li>Seamless API connectivity</li></ul>
+      <ul><li>Custom workflow automation</li><li>Agentic AI integration</li><li>Seamless API connectivity</li><li>Optimized digital pipelines</li></ul>
     </div>
     <div>
       <span class="eyebrow rv">About me</span>
       <h2 class="hd rv">Why <em>hire</em> me?</h2>
-      <p class="lead rv d1">Passionate Agentic AI Developer turning complex operational tasks into streamlined workflows.</p>
+      <p class="lead rv d1">Passionate Agentic AI Developer turning complex operational tasks into streamlined, automated workflows using cutting-edge tools.</p>
       <div class="info rv d2">
         <div><small>Based in</small>Karachi, Pakistan</div><div><small>Email</small>ibrahimautomation647@gmail.com</div>
+        <div><small>Focus</small>Agentic AI &amp; n8n Workflows</div><div><small>Role</small>AI Developer &amp; Automator</div>
       </div>
       <div class="stats rv d2">
         <div><b data-count="50">0</b><span>Automations built</span></div>
         <div><b data-count="10">0</b><span>Workflows active</span></div>
+        <div><b data-count="2">0</b><span>Years exploring AI</span></div>
       </div>
+      <div class="hero-btns rv d3" style="justify-content:flex-start;margin-top:0"><a class="btn pri" href="#contact">Hire me</a><a class="btn sec" href="https://wa.me/" target="_blank" rel="noopener" aria-label="Book a call to view available time slots, pick a date and time, and automatically schedule a meeting with direct notifications for a streamlined hiring and collaboration process">Book a Call</a></div>
     </div>
   </div>
 </section>
+
+<!-- ============ TECH STACK ============ -->
 <section id="skills">
   <div class="wrap">
-    <div class="top"><div class="rv"><span class="eyebrow">Skills</span><h2 class="hd">My <em>tech</em> stack</h2></div></div>
+    <div class="top"><div class="rv"><span class="eyebrow">Skills</span><h2 class="hd">My <em>tech</em> stack</h2></div><p class="sub rv d1">Tools and frameworks I use to build automated solutions.</p></div>
     <div class="stack-grid">
       <div class="tcard rv"><h3>Automation &amp; AI</h3><p>Powering smart workflows.</p><div class="pills"><span>n8n</span><span>Claude</span><span>Gemini</span><span>Python</span></div></div>
       <div class="tcard rv d1"><h3>Development</h3><p>Clean code and scripting.</p><div class="pills"><span>JavaScript</span><span>HTML5</span><span>CSS3</span><span>Git</span></div></div>
-      <div class="tcard rv d2"><h3>Integrations</h3><p>Connecting platforms smoothly.</p><div class="pills"><span>REST APIs</span><span>Webhooks</span><span>JSON</span></div></div>
+      <div class="tcard rv d2"><h3>Integrations</h3><p>Connecting platforms smoothly.</p><div class="pills"><span>REST APIs</span><span>Webhooks</span><span>JSON</span><span>Database</span></div></div>
+      <div class="tcard rv"><h3>Agentic Systems</h3><p>Autonomous task execution.</p><div class="pills"><span>AI Agents</span><span>Prompt Engineering</span><span>Pipelines</span></div></div>
+      <div class="tcard rv d1"><h3>Cloud &amp; Hosting</h3><p>Reliable deployment.</p><div class="pills"><span>Vercel</span><span>GitHub</span><span>Cloud Run</span><span>Hosting</span></div></div>
+      <div class="tcard rv d2"><h3>Media &amp; Content</h3><p>Digital asset automation.</p><div class="pills"><span>FFmpeg</span><span>Python Scripts</span><span>Media Tools</span></div></div>
     </div>
   </div>
 </section>
+
+<!-- ============ EXPERIENCE ============ -->
 <section id="exp">
   <div class="wrap">
-    <div class="top"><div class="rv"><span class="eyebrow">Journey</span><h2 class="hd">Experience <em>&amp;</em> practice</h2></div></div>
+    <div class="top"><div class="rv"><span class="eyebrow">Journey</span><h2 class="hd">Experience <em>&amp;</em> practice</h2></div><p class="sub rv d1">My active projects and hands-on automation journey.</p></div>
     <div class="tline" id="tline"><div class="fill"></div>
-      <div class="job rv"><div class="meta"><h3>Ibrahim Automates</h3><small>2026 – Present</small></div><div class="box"><h4>Founder &amp; Creator</h4><ul><li>Publishing educational content on workflow concepts.</li></ul><div class="pills"><span>n8n</span><span>AI Agents</span></div></div></div>
-      <div class="job rv"><div class="meta"><h3>Agentic AI Training</h3><small>2026 – Present</small></div><div class="box"><h4>AI Development Trainee</h4><ul><li>Studying advanced agentic workflows.</li></ul><div class="pills"><span>Claude</span><span>Gemini</span></div></div></div>
+      <div class="job rv"><div class="meta"><h3>Ibrahim Automates</h3><small>2026 – Present</small><small>Online Platform</small></div>
+        <div class="box"><h4>Founder &amp; Creator</h4><ul><li>Publishing educational content on workflow concepts and AI automation.</li><li>Building custom n8n workflows and automated agent pipelines.</li></ul><div class="pills"><span>n8n</span><span>AI Agents</span><span>Python</span></div></div></div>
+      <div class="job rv"><div class="meta"><h3>Agentic AI Training</h3><small>2026 – Present</small><small>Saylani Mass IT</small></div>
+        <div class="box"><h4>AI Development Trainee</h4><ul><li>Studying advanced agentic workflows and LLM integrations.</li><li>Developing automated scripts and intelligent digital solutions.</li></ul><div class="pills"><span>Claude</span><span>Gemini</span><span>Automation</span></div></div></div>
+      <div class="job rv"><div class="meta"><h3>AI Chatbot Maker</h3><small>2026 – Present</small><small>Freelance</small></div>
+        <div class="box"><h4>AI Chatbot Developer</h4><ul><li>Building intelligent conversational agents for customer support and lead generation.</li><li>Integrating LLMs, APIs, and automation pipelines into responsive chatbot solutions.</li></ul><div class="pills"><span>Chatbots</span><span>LLMs</span><span>AI Automation</span></div></div></div>
     </div>
   </div>
 </section>
+
+<!-- ============ PROJECTS ============ -->
 <section id="projects">
   <div class="wrap">
-    <div class="top"><div class="rv"><span class="eyebrow">Work</span><h2 class="hd">Selected <em>workflows</em></h2></div></div>
+    <div class="top"><div class="rv"><span class="eyebrow">Work</span><h2 class="hd">Selected <em>workflows &amp; projects</em></h2></div><p class="sub rv d1">Explore my custom-built automations and agent pipelines.</p></div>
     <div class="pstack">
-      <article class="pcard" style="--i:0"><div><span class="tg y">Featured</span><h3>Email Auto-Drafter</h3><div class="stat"><b>Auto</b>drafting</div><ul><li>Automatically drafts email responses using AI.</li></ul><div class="pills"><span>Python</span><span>AI</span></div></div><div class="pvis"><img src="email auto drafter.png" alt="Email Auto-Drafter" loading="lazy"></div></article>
+      <article class="pcard" style="--i:0"><div><span class="tg y">Featured</span><span class="tg g">Live</span><h3>Email Auto-Drafter</h3><div class="stat"><b>Auto</b>drafting</div><ul><li>Automatically drafts email responses using AI for faster communication.</li><li>Reduces manual effort and ensures consistent, professional messaging.</li><li>Integrates with workflows and triggers for hands-free operation.</li></ul><div class="pills"><span>Python</span><span>AI</span><span>Automation</span></div><a class="btn pri" href="https://github.com/muhammadibrahimkamran/n8n-workflows" target="_blank" rel="noopener" style="margin-top:16px">View Project ↗</a></div><div class="pvis v1"><img src="email auto drafter.png" alt="Email Auto-Drafter workflow" loading="lazy"></div></article>
+      <article class="pcard" style="--i:1"><div><span class="tg y">Featured</span><span class="tg g">Live</span><h3>Twitter Auto-Poster</h3><div class="stat"><b>Auto</b>posting</div><ul><li>Automates social media posting to Twitter on a scheduled basis.</li><li>Reduces manual effort and keeps content flowing consistently.</li><li>Integrates with workflows for hands-free social media management.</li></ul><div class="pills"><span>Twitter</span><span>Automation</span><span>Scheduling</span></div><a class="btn pri" href="https://github.com/muhammadibrahimkamran/n8n-workflows" target="_blank" rel="noopener" style="margin-top:16px">View Project ↗</a></div><div class="pvis v2"><img src="twitter poster n8n.png" alt="Twitter Auto-Poster workflow" loading="lazy"></div></article>
+      <article class="pcard" style="--i:2"><div><span class="tg y">Featured</span><span class="tg g">Live</span><h3>Appointment Booking System</h3><div class="stat"><b>Auto</b>booking</div><ul><li>Automates scheduling and confirmation of appointments with clients.</li><li>Reduces manual coordination and prevents double bookings.</li><li>Integrates with calendars and notifications for seamless booking.</li></ul><div class="pills"><span>Scheduling</span><span>Automation</span><span>Notifications</span></div><a class="btn pri" href="https://github.com/muhammadibrahimkamran/n8n-workflows" target="_blank" rel="noopener" style="margin-top:16px">View Project ↗</a></div><div class="pvis v3"><img src="appoinmnet booking system.png" alt="Appointment Booking System workflow" loading="lazy"></div></article>
+    </div>
+    <h3 class="rv" style="font-size:1.4rem;margin-top:30px;letter-spacing:-.02em">More things I've <em style="font-size:1.2em">built</em></h3>
+    <div class="more">
+      <div class="mc rv"><img class="th" src="simple chatbot.png" alt="Simple Chatbot workflow"><div><h4>Simple Chatbot</h4><p>Builds an intelligent conversational agent for automated support and engagement.</p><a href="https://github.com/muhammadibrahimkamran/n8n-workflows" target="_blank" rel="noopener">See the code ↗</a></div></div>
+      <div class="mc rv d1"><img class="th" src="whatsap customer support.png" alt="WhatsApp Customer Support workflow"><div><h4>WhatsApp Customer Support</h4><p>Automates customer support conversations and responses on WhatsApp.</p><a href="https://github.com/muhammadibrahimkamran/n8n-workflows" target="_blank" rel="noopener">See the code ↗</a></div></div>
     </div>
   </div>
 </section>
+
+<!-- ============ EDUCATION ============ -->
 <section id="edu">
   <div class="wrap">
-    <div class="top"><div class="rv"><span class="eyebrow">Education</span><h2 class="hd">Learning <em>&amp;</em> credentials</h2></div></div>
-    <div class="edu-row rv"><div class="yr">2026</div><div><h3>Diploma in Computer Information Technology</h3><p>Aligarh Institute of Technology</p></div></div>
+    <div class="top"><div class="rv"><span class="eyebrow">Education</span><h2 class="hd">Learning <em>&amp;</em> credentials</h2></div><p class="sub rv d1">Academic background and professional training.</p></div>
+    <div class="edu-row rv"><div class="yr">2026</div><div><h3>Diploma in Computer Information Technology</h3><p>Aligarh Institute of Technology</p></div><span class="tg">Degree</span></div>
+    <div class="edu-row rv"><div class="yr">2026</div><div><h3>Agentic AI Development Training</h3><p>Saylani Mass IT Training</p></div><span class="tg">Training</span></div>
+    <div class="edu-row rv"><div class="yr">2025</div><div><h3>E-Commerce Training</h3><p>Store setup, product listings, and e-commerce operations.</p></div><span class="tg">Training</span></div>
   </div>
 </section>
+
+<!-- ============ CONTACT ============ -->
 <section id="contact">
   <div class="wrap">
     <div class="cbox rv">
       <div>
-        <h2>Have an automation <em>idea?</em></h2>
-        <p>Tell me what workflows you want to build.</p>
+        <h2>Have an automation <em>idea?</em> Let's talk.</h2>
+        <p>Tell me what workflows you want to build. I reply within one working day.</p>
         <div class="clinks">
-          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ibrahimautomation647@gmail.com"><span><small>Email</small>ibrahimautomation647@gmail.com</span><span>↗</span></a>
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ibrahimautomation647@gmail.com&su=Inquiry%20regarding%20AI%20Automation" target="_blank" rel="noopener"><span><small>Email</small>ibrahimautomation647@gmail.com</span><span>↗</span></a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener"><span><small>LinkedIn</small>connect with me</span><span>↗</span></a>
+          <a href="https://wa.me/923333250614" target="_blank" rel="noopener"><span><small>WhatsApp</small>Chat on WhatsApp</span><span>↗</span></a>
+<a href="https://github.com/muhammadibrahimkamran" target="_blank" rel="noopener"><span><small>GitHub</small>explore my code</span><span>↗</span></a>
         </div>
       </div>
       <form id="cform">
         <h3>Send a message</h3>
-        <div class="r2"><label>Name<input name="n" required placeholder="Name"></label><label>Email<input name="e" type="email" required placeholder="Email"></label></div>
-        <label>Message<textarea name="m" required placeholder="Message"></textarea></label>
-        <button class="btn pri" type="submit">Send message</button>
+        <div class="r2"><label>Name<input name="n" required placeholder="Your name"></label><label>Email<input name="e" type="email" required placeholder="you@email.com"></label></div>
+        <label>Subject<input name="s" placeholder="What workflow do you need?"></label>
+        <label>Message<textarea name="m" required placeholder="Tell me about your project or automation idea"></textarea></label>
+        <button class="btn pri" type="submit" style="justify-self:start">Send message</button>
         <div id="fmsg" role="status"></div>
       </form>
     </div>
   </div>
 </section>
 </main>
+
+<!-- ============ TESTIMONIALS ============ -->
 <section id="testimonials">
   <div class="wrap">
-    <div class="top"><div class="rv"><span class="eyebrow">Reviews</span><h2 class="hd">Client <em>testimonials</em></h2></div></div>
-    <div class="review-marquee" id="reviewMarquee"><div class="review-track" id="reviewTrack"></div></div>
+    <div class="top"><div class="rv"><span class="eyebrow">Reviews</span><h2 class="hd">Client <em>testimonials</em></h2></div><p class="sub rv d1">Real feedback from clients and collaborators.</p></div>
+    <div class="review-marquee" id="reviewMarquee" aria-live="polite">
+      <div class="review-track" id="reviewTrack"></div>
+    </div>
     <div style="text-align:center;margin-top:24px"><button class="btn pri" id="openReview" type="button">Leave a Review</button></div>
   </div>
 </section>
+
+<!-- ============ REVIEW MODAL ============ -->
+<div class="modal" id="reviewModal" aria-hidden="true">
+  <div class="modal-card">
+    <button class="modal-close" id="closeReview" type="button" aria-label="Close">&times;</button>
+    <h3>Leave a Review</h3>
+    <a class="insta-banner" href="https://www.instagram.com/muhammad.ibrahim.ai" target="_blank" rel="noopener">Connect with me on Instagram ↗</a>
+    <form id="reviewForm">
+      <label>Name<input name="name" required placeholder="Your name"></label>
+      <label>Review<textarea name="message" required placeholder="Share your experience"></textarea></label>
+      <label>Rating
+        <div class="star-picker" id="starPicker">
+          <button type="button" data-value="1">★</button>
+          <button type="button" data-value="2">★</button>
+          <button type="button" data-value="3">★</button>
+          <button type="button" data-value="4">★</button>
+          <button type="button" data-value="5">★</button>
+        </div>
+        <input type="hidden" name="rating" id="ratingInput" value="5">
+      </label>
+      <label>Social link (optional)<input name="social" placeholder="@username or profile URL"></label>
+      <button class="btn pri" type="submit">Submit Review</button>
+      <div id="reviewMsg" role="status"></div>
+    </form>
+  </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
 <footer>
   <div class="wrap">
-    <div class="fhead"><h2>Let's build <em>together</em>.</h2><button class="totop" id="up">Back to top</button></div>
+    <div class="fhead"><h2>Let's build something <em>great</em> together.</h2><button class="totop" id="up">Back<br>to top</button></div>
     <div class="fcols">
-      <div><div><b>MI</b> MUHAMMAD IBRAHIM.</div><p>Agentic AI Developer</p></div>
+      <div><div class="logo"><b>MI</b>MUHAMMAD IBRAHIM.</div><p>Agentic AI Developer — Building intelligent workflows and automated systems that scale.</p></div>
+      <div><h5>Navigate</h5><ul><li><a href="#home">Home</a></li><li><a href="#about">About</a></li><li><a href="#skills">Skills</a></li><li><a href="#exp">Experience</a></li><li><a href="#projects">Projects</a></li><li><a href="#contact">Contact</a></li></ul></div>
+      <div><h5>Contact</h5><ul><li><a href="https://mail.google.com/mail/?view=cm&fs=1&to=ibrahimautomation647@gmail.com&su=Inquiry%20regarding%20AI%20Automation" target="_blank" rel="noopener">Email Me</a></li><li>Karachi, Pakistan</li><li><a href="https://wa.me/" target="_blank" rel="noopener" aria-label="Book a call to view available time slots, pick a date and time, and automatically schedule a meeting with direct notifications for a streamlined hiring and collaboration process">Book a Call</a></li></ul></div>
+      <div><h5>Social</h5><ul><li><a href="https://github.com/muhammadibrahimkamran" target="_blank" rel="noopener">GitHub</a></li><li><a href="https://instagram.com/muhammad.ibrahim.ai" target="_blank" rel="noopener">Instagram</a></li><li><a href="https://www.linkedin.com/in/ibrahimkamran-ai/" target="_blank" rel="noopener">LinkedIn</a></li><li><a href="https://wa.me/923333250614" target="_blank" rel="noopener">WhatsApp</a></li></ul></div>
     </div>
-    <div class="fbot"><span>© 2026 Muhammad Ibrahim.</span><span>Built with care</span></div>
+    <div class="fbot"><span>© 2026 Muhammad Ibrahim. All rights reserved.</span><span>Built with care</span></div>
   </div>
   <div class="giant" aria-hidden="true">MUHAMMAD IBRAHIM</div>
 </footer>
-<script>
-(function(){
-  var burger = document.getElementById('burger'), nav = document.querySelector('nav');
-  if(burger && nav){
-    burger.addEventListener('click', function(){ nav.classList.toggle('open'); });
-    nav.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ nav.classList.remove('open'); }); });
-  }
-})();
-</script>
-<script src="script.js"></script>
+
+<template id="ph"><div class="phone" style="width:100%;height:100%"><i class="notch"></i><div class="scr"><div class="s-top"><b>Workflow Active</b><span></span></div><div class="s-card"><small>Automation Stats</small><strong>99.9%</strong><div class="s-bars"><i style="height:50%"></i><i style="height:80%"></i><i style="height:60%"></i><i style="height:95%"></i><i style="height:70%"></i><i style="height:100%"></i></div></div><div class="s-row"><span></span><p><b></b><b></b></p></div><div class="s-row"><span></span><p><b></b><b></b></p></div><div class="s-row"><span></span><p><b></b><b></b></p></div></div></div></template>
+
 <script>
 (function(){
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var body = document.body;
+
+  /* phone mockups */
+  var tpl = document.getElementById('ph');
+  document.querySelectorAll('[data-phone]').forEach(function(el){
+    var node = tpl.content.firstElementChild.cloneNode(true);
+    if(el.classList.contains('phone')){ el.innerHTML = node.innerHTML; }
+    else { var w = document.createElement('div'); w.className='phone'; w.innerHTML = node.innerHTML; el.replaceWith(w); }
+  });
+
+  /* marquee skills line */
+  var tech = ['n8n Automation','Python','Agentic AI','Workflow Design','Custom AI Agents','APIs','Chatbot Developer','AI Chatbots'];
+  var m = document.getElementById('mq1'), h = '';
+  for(var k=0;k<4;k++){ tech.forEach(function(t){ h += '<span>'+t+'</span>'; }); }
+  m.innerHTML = h;
+  var tech2 = ['HTML','Java','Python','Node.js','JSON','JavaScript','APIs'];
+  var m2 = document.getElementById('mq2'), h2 = '';
+  for(var k=0;k<4;k++){ tech2.forEach(function(t){ h2 += '<span>'+t+'</span>'; }); }
+  m2.innerHTML = h2;
+
+  /* preloader (timeline copied from the reference) */
   var pre = document.getElementById('pre'), pre2 = document.getElementById('pre2');
   var num = document.getElementById('pnum'), bar = document.getElementById('pbar');
-  if(!pre){ body.classList.add('loaded'); return; }
-  if(reduce){ pre.style.display='none'; if(pre2) pre2.style.display='none'; body.classList.add('loaded'); return; }
-  body.style.overflow='hidden';
-  var t0 = performance.now(), dur = 2600, shown = 0;
-  (function tick(t){
-    var p = Math.max(0, Math.min((t-t0)/dur, 1));
-    var target = (p>=1) ? 100 : Math.round(p*100);
-    if(target > shown){ shown = shown + 1; }
-    num.textContent = shown;
-    if(bar) bar.style.transform = 'scaleX(' + (shown/100) + ')';
-    if(shown < 100){ requestAnimationFrame(tick); }
-    else {
-      pre.classList.add('rise');
-      if(pre2) pre2.classList.add('rise');
-      setTimeout(function(){ body.classList.add('loaded'); }, 250);
-      setTimeout(function(){ pre.style.display='none'; if(pre2) pre2.style.display='none'; body.style.overflow=''; }, 1800);
+  var nameEl = pre.querySelector('.name');
+
+  /* 1) split the name into letters (all start hidden below the mask) */
+  var text = nameEl.textContent, chars = [];
+  nameEl.textContent = '';
+  for(var i=0;i<text.length;i++){
+    var s = document.createElement('span');
+    s.className = 'ch' + (i===text.length-1 ? ' dot' : '');
+    s.textContent = text[i]===' ' ? '\u00A0' : text[i];
+    nameEl.appendChild(s);
+    chars.push(s);
+  }
+
+  /* 3) the two curtains lift, page appears. Guarded so it can only run ONCE. */
+  var lifted = false;
+  function lift(){
+    if(lifted) return;
+    lifted = true;
+    pre.classList.add('rise');                               /* dark curtain goes up */
+    pre2.classList.add('rise');                              /* purple curtain follows right behind */
+    setTimeout(function(){ body.classList.add('loaded'); }, 250);   /* nav + hero animate in */
+    setTimeout(function(){
+      pre.style.display = 'none'; pre2.style.display = 'none';
+      body.style.overflow = '';
+    }, 1800);
+  }
+
+  /* 4) name leaves upward, then curtains lift */
+  function exitName(){
+    chars.forEach(function(c,i){ c.style.transitionDelay = (i*0.03)+'s'; });
+    pre.classList.add('out');
+    setTimeout(lift, 950);
+  }
+
+  /* name reveal is driven by the counter: letter i starts rising when the progress reaches its turn.
+     The last letter is completely in place exactly at 100%. */
+  var N = chars.length, OVERLAP = 3;
+  function revealName(prog){
+    for(var i=0;i<N;i++){
+      var cp = Math.max(0, Math.min(1, (prog*(N+OVERLAP) - i)/OVERLAP));
+      var ease = 1 - Math.pow(1-cp, 3);                                     /* soft landing */
+      chars[i].style.transform = 'translateY(' + ((1-ease)*120) + '%)';
     }
-  })(t0);
+  }
+  revealName(0);
+
+  /* 5) count 0 -> 100, ONE number at a time (never skips), progress line follows */
+  function startCount(){
+    var t0 = performance.now(), dur = 2800, shown = 0;
+    (function tick(t){
+      var p = Math.max(0, Math.min((t-t0)/dur, 1));
+      var ease = p < .5 ? 2*p*p : 1 - Math.pow(-2*p+2, 2)/2;
+      var target = (p >= 1) ? 100 : Math.round((p*0.5 + ease*0.5) * 100);   /* gentle slow-fast-slow */
+      if(target > shown){ shown = shown + 1; }                              /* at most +1 per frame */
+      num.textContent = shown;
+      if(bar) bar.style.transform = 'scaleX(' + (shown/100) + ')';
+      revealName(shown/100);                                                /* letters follow the percentage */
+      if(shown < 100){ requestAnimationFrame(tick); }                       /* one next frame only while counting */
+      else { setTimeout(exitName, 500); }                                   /* 100 shown, name stays half a second */
+    })(t0);
+  }
+
+  if(reduce){ pre.style.display='none'; pre2.style.display='none'; body.classList.add('loaded'); }
+  else {
+    body.style.overflow='hidden';
+    startCount();
+  }
+
+  /* reveal + counters */
+  function count(el){
+    var to = +el.dataset.count, s = performance.now(), d = 1400;
+    (function f(t){ var p = Math.min((t-s)/d,1); el.textContent = Math.round(to*(1-Math.pow(1-p,3))); if(p<1) requestAnimationFrame(f); })(s);
+  }
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.classList.add('in');
+      e.target.querySelectorAll('[data-count]').forEach(count);
+      io.unobserve(e.target);
+    });
+  },{threshold:.15});
+  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+
+  /* scroll spy */
+  var links = document.querySelectorAll('nav a[href^="#"]:not(.logo)');
+  var map = {about:'#about',why:'#about',skills:'#skills',exp:'#exp',edu:'#exp',projects:'#projects',contact:'#contact',home:'#home'};
+  var spy = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var target = map[e.target.id];
+      links.forEach(function(a){ a.classList.toggle('on', a.getAttribute('href')===target); });
+    });
+  },{rootMargin:'-45% 0px -50% 0px'});
+  Object.keys(map).forEach(function(id){ var s = document.getElementById(id); if(s) spy.observe(s); });
+
+  /* timeline progress */
+  var tl = document.getElementById('tline');
+  if(tl){
+    function prog(){
+      var r = tl.getBoundingClientRect(), vh = window.innerHeight;
+      var p = (vh*0.6 - r.top)/r.height; p = Math.max(0,Math.min(1,p));
+      tl.style.setProperty('--p', (p*100)+'%');
+    }
+    window.addEventListener('scroll',prog,{passive:true}); window.addEventListener('resize',prog); prog();
+  }
+
+  /* back to top */
+  document.getElementById('up').addEventListener('click',function(){ window.scrollTo({top:0,behavior:reduce?'auto':'smooth'}); });
+
+  /* contact form */
+  document.getElementById('cform').addEventListener('submit',function(ev){
+    ev.preventDefault();
+    var f = ev.target, to = 'ibrahimautomation647@gmail.com';
+    var name = encodeURIComponent(f.n.value);
+    var email = encodeURIComponent(f.e.value);
+    var subject = encodeURIComponent(f.s.value || 'Workflow enquiry from ' + f.n.value);
+    var message = encodeURIComponent('Name: ' + f.n.value + '\nEmail: ' + f.e.value + '\n\n' + f.m.value);
+    
+    var gmailComposeUrl = 'https://mail.google.com/mail/?view=cm&fs=1' +
+                          '&to=' + to +
+                          '&su=' + subject +
+                          '&body=' + message;
+                          
+    window.open(gmailComposeUrl, '_blank');
+    document.getElementById('fmsg').textContent = 'Opening Gmail compose window...';
+  });
 })();
 </script>
+<script src="script.js"></script>
 </body>
 </html>
