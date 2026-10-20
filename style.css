@@ -337,3 +337,17 @@ img,video{height:auto}
     overflow-wrap: break-word !important;
   }
 }
+
+
+/* ===== PORTRAIT MOBILE OVERFLOW FIX ===== */
+@media (max-width: 768px) {
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100% !important;
+  }
+  .review-card { flex: 0 0 100% !important; max-width: 100% !important; width: 100% !important; }
+  .more .th, .hero-stage .phone, .totop, .chip, .quote, .award { max-width: 100% !important; }
+  .marq-wrap, .marq, .marq.alt { max-width: 100% !important; overflow: hidden !important; }
+  .wrap, section, footer, main { max-width: 100% !important; overflow-x: hidden !important; }
+  * { box-sizing: border-box !important; }
+}
