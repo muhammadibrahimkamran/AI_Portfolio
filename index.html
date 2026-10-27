@@ -61,6 +61,8 @@ h2.hd em{font-size:1.12em;letter-spacing:-.01em}
 #pre .cnt{font-size:clamp(2rem,5vw,3.6rem);font-weight:700;letter-spacing:-.04em;line-height:1}
 #pre .cnt small{font-size:.4em;color:var(--ind2)}
 #pbar{position:absolute;left:0;bottom:0;height:3px;width:100%;background:var(--ind2);transform:scaleX(0);transform-origin:left}
+/* while the loader is up, freeze every background animation so the name animation gets the full GPU */
+body:not(.loaded) *,body:not(.loaded) *::before,body:not(.loaded) *::after{animation-play-state:paused!important}
 
 /* ============ NAV ============ */
 nav{position:fixed;top:16px;left:50%;transform:translate(-50%,-140%);z-index:90;display:flex;align-items:center;gap:4px;padding:6px;border-radius:99px;background:rgba(8,11,18,.92);backdrop-filter:blur(14px);box-shadow:0 14px 40px -12px rgba(10,14,22,.6);transition:transform .9s cubic-bezier(.2,.8,.2,1) .2s}
@@ -1041,7 +1043,7 @@ body.loaded .robo{opacity:1;transform:none}
       try {
         document.fonts.load('800 100px "Plus Jakarta Sans"');
         document.fonts.ready.then(beginCount);
-        setTimeout(beginCount, 1200);
+        setTimeout(beginCount, 2000);
       } catch(err){ beginCount(); }
     } else { beginCount(); }
   }
@@ -1221,21 +1223,23 @@ body.loaded .robo{opacity:1;transform:none}
     });
   }
 
-  /* chat: answers ONLY from the FAQ knowledge base below — anything else is refused */
+  /* chat: answers ONLY from this knowledge base (site content) — anything out of scope is refused */
   var KB = [
-    { k: ['who is', 'who are', 'about him', 'about ibrahim', 'about you', 'yourself', 'tell me about', 'intro', 'background', 'kaun'], a: "I'm Muhammad Ibrahim — a 20-year-old Agentic AI Developer from Karachi, Pakistan. I build n8n automation workflows, AI agents, and chatbots that take over repetitive tasks, so you can focus on the work that actually matters." },
-    { k: ['age', 'how old', 'old are you', 'where is he', 'where are you', 'where do you live', 'your location', 'based in', 'which city', 'karachi', 'pakistan'], a: "I'm a 20-year-old Agentic AI Developer based in Karachi, Pakistan (Scheme 33) — working with clients remotely from all over the world." },
-    { k: ['service', 'offer', 'what do you do', 'automat', 'n8n', 'help with', 'what can you'], a: "Workflow automation with n8n, agentic AI solutions (Claude, Gemini, LangChain), custom chatbots, full-stack web development, and system integrations through APIs and webhooks." },
-    { k: ['hire', 'contact', 'reach', 'email', 'whatsapp', 'talk', 'call', 'available'], a: "Simple — message me on WhatsApp with your idea and I'll reply within one working day.", l: 1 },
-    { k: ['cost', 'price', 'charge', 'rate', 'budget', 'quote', 'how much', 'fee', 'expensive'], a: "It depends on scope: the steps, integrations, and the AI involved. Share your idea on WhatsApp and you'll get a clear, fixed quote — no surprises.", l: 1 },
-    { k: ['fast', 'deliver', 'deadline', 'how long', 'when', 'time'], a: "Simple automations usually go live within a few days. Larger agent systems take longer — and you get progress updates at every step." },
-    { k: ['tool', 'tech', 'stack', 'python', 'javascript', 'langchain', 'claude', 'gemini', 'api', 'webhook'], a: "n8n, Python, Claude, Gemini, LangChain, JavaScript/Node.js, REST APIs, webhooks — and whatever else the job needs to get done right." },
-    { k: ['chatbot', 'bot for', 'support bot', 'lead', 'assistant for'], a: "Yes — customer-support bots, lead-generation bots, and WhatsApp assistants powered by LLMs, trained on your business context." },
-    { k: ['idea', 'discuss', 'start', 'begin', 'suggest', 'my project'], a: "Absolutely, ideas are always welcome! Message me on WhatsApp with a rough sketch of your idea and we'll shape it into a working system together.", l: 1 },
-    { k: ['project', 'made', 'built', 'portfolio', 'clients', 'sample', 'examples', 'demo', 'already'], a: "I've already built an Email Auto-Drafter, a Twitter Auto-Poster, an Appointment Booking System, a Simple Chatbot, and WhatsApp Customer Support automation — all with n8n. See the Projects section above, or check github.com/muhammadibrahimkamran." },
-    { k: ['education', 'study', 'student', 'diploma', 'degree', 'school', 'college', 'institute', 'saylani', 'qualification', 'trained'], a: "I completed a Diploma in Computer Information Technology at Aligarh Institute of Technology, I'm training in Agentic AI Development at Saylani Mass IT, and I've also done e-commerce training." },
-    { k: ['experience', 'career', 'journey', 'worked', 'freelance', 'founder', 'job'], a: "I run my own platform, Ibrahim Automates, building custom n8n workflows and agent pipelines; I'm an AI Development trainee at Saylani Mass IT; and I work as a freelance AI chatbot developer." }
+    { s: ['who is', 'who are', 'about him', 'about ibrahim', 'about you', 'yourself', 'tell me about', 'intro', 'background'], w: ['ibrahim', 'developer', '20'], a: "I'm Muhammad Ibrahim — a 20-year-old Agentic AI Developer from Karachi, Pakistan. I build n8n automation workflows, AI agents, and chatbots that take over repetitive tasks, so you can focus on the work that actually matters." },
+    { s: ['how old', 'age', 'old are you', 'where are you', 'where do you live', 'where is he', 'your location', 'based in', 'which city', 'from where'], w: ['karachi', 'pakistan', 'live', 'from', 'city', 'scheme 33'], a: "I'm a 20-year-old Agentic AI Developer based in Karachi, Pakistan (Scheme 33) — working with clients remotely from all over the world." },
+    { s: ['service', 'offer', 'what do you do', 'what can you', 'what he do'], w: ['automat', 'n8n', 'workflow', 'integration', 'web development'], a: "Workflow automation with n8n, agentic AI solutions (Claude, Gemini, LangChain), custom chatbots, full-stack web development, and system integrations through APIs and webhooks." },
+    { s: ['hire', 'contact', 'reach', 'email', 'whatsapp', 'available', 'how can i'], w: ['call', 'message', 'talk'], a: "Simple — message me on WhatsApp with your idea and I'll reply within one working day.", l: 1 },
+    { s: ['cost', 'price', 'charge', 'quote', 'how much', 'fee', 'expensive', 'budget'], w: [], a: "It depends on scope: the steps, integrations, and the AI involved. Share your idea on WhatsApp and you'll get a clear, fixed quote — no surprises.", l: 1 },
+    { s: ['fast', 'deliver', 'delivery', 'deadline', 'how long'], w: [], a: "Simple automations usually go live within a few days. Larger agent systems take longer — and you get progress updates at every step." },
+    { s: ['tools', 'tech stack', 'python', 'javascript', 'langchain', 'claude', 'gemini', 'api', 'webhook', 'what do you use'], w: ['technology'], a: "n8n, Python, Claude, Gemini, LangChain, JavaScript/Node.js, REST APIs, webhooks — and whatever else the job needs to get done right." },
+    { s: ['chatbot', 'bot for', 'support bot', 'lead'], w: ['assistant for', 'bot'], a: "Yes — customer-support bots, lead-generation bots, and WhatsApp assistants powered by LLMs, trained on your business context." },
+    { s: ['idea', 'discuss', 'start', 'begin', 'suggest'], w: ['my project'], a: "Absolutely, ideas are always welcome! Message me on WhatsApp with a rough sketch of your idea and we'll shape it into a working system together.", l: 1 },
+    { s: ['project', 'portfolio', 'clients', 'sample', 'examples', 'demo', 'made', 'built', 'already'], w: ['github', 'work'], a: "I've already built an Email Auto-Drafter, a Twitter Auto-Poster, an Appointment Booking System, a Simple Chatbot, and WhatsApp Customer Support automation — all with n8n. See the Projects section above, or check github.com/muhammadibrahimkamran." },
+    { s: ['education', 'study', 'student', 'diploma', 'degree', 'school', 'college', 'institute', 'saylani', 'qualification'], w: ['trained', 'training'], a: "I completed a Diploma in Computer Information Technology at Aligarh Institute of Technology, I'm training in Agentic AI Development at Saylani Mass IT, and I've also done e-commerce training." },
+    { s: ['experience', 'career', 'journey', 'worked', 'freelance', 'founder'], w: ['job'], a: "I run my own platform, Ibrahim Automates, building custom n8n workflows and agent pipelines; I'm an AI Development trainee at Saylani Mass IT; and I work as a freelance AI chatbot developer." }
   ];
+  /* questions containing these are treated as out of scope unless a strong topic word is present */
+  var OFF = ['weather', 'waether', 'wether', 'mausam', 'time', 'clock', 'date', 'today', 'tomorrow', 'yesterday', 'news', 'temperature', 'cricket', 'match', 'movie', 'song', 'joke', 'president', 'capital', 'currency', 'calculator', 'food', 'recipe'];
   var GREET_RE = /(^|\s)(hi+|hello+|hy+|hey+|salam+|salaam|assalam|asalam|aoa|good\s(morning|evening|afternoon))(\s|!|\.|\?|,|$)/i;
   var REFUSE = "I'm just Ibrahim's website assistant 🙂 I can only answer questions about him — his work, projects, education, experience, and hiring. Anything else is out of my scope. Try one of the questions below, or reach him directly on WhatsApp!";
 
@@ -1251,17 +1255,19 @@ body.loaded .robo{opacity:1;transform:none}
   };
   var botReply = function(q){
     var t = ' ' + q.toLowerCase().replace(/[^\w\s']/g, ' ').replace(/\s+/g, ' ') + ' ';
-    var best = null, bestScore = 0;
+    var best = null, bestScore = 0, bestHasStrong = false;
     KB.forEach(function(item){
-      var s = 0;
-      item.k.forEach(function(kw){ if (t.indexOf(' ' + kw) !== -1) s++; });
-      if (s > bestScore) { bestScore = s; best = item; }
+      var s = 0, hasS = false;
+      (item.s || []).forEach(function(kw){ if (t.indexOf(kw) !== -1) { s += 3; hasS = true; } });
+      (item.w || []).forEach(function(kw){ if (t.indexOf(kw) !== -1) { s += 1; } });
+      if (s > bestScore) { bestScore = s; best = item; bestHasStrong = hasS; }
     });
+    var isOff = OFF.some(function(ow){ return t.indexOf(' ' + ow) !== -1; });
     var isGreet = GREET_RE.test(q);
     var typing = addMsg('<span></span><span></span><span></span>', 'bot typing');
     setTimeout(function(){
       if (typing) typing.remove();
-      if (best && bestScore > 0) {
+      if (best && bestScore > 0 && !(isOff && !bestHasStrong)) {
         addMsg(best.a, 'bot');
         if (best.l) addMsg('<a href="https://wa.me/923333250614?text=Hi%20Ibrahim!%20I%20want%20to%20hire%20you." target="_blank" rel="noopener">Open WhatsApp ↗</a>', 'bot');
       } else if (isGreet) {
