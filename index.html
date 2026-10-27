@@ -53,7 +53,7 @@ h2.hd em{font-size:1.12em;letter-spacing:-.01em}
 /* the name: letters rise from below a mask line IN SYNC with the counter (left to right); at the end it leaves upward */
 #pre .nm{overflow:hidden;max-width:100%;padding:.06em .1em}
 #pre .name{display:block;white-space:nowrap;text-align:center;text-transform:uppercase;font-size:clamp(1.5rem,7.2vw,7.5rem);font-weight:800;letter-spacing:-.05em;line-height:1}
-#pre .ch{display:inline-block;transform:translateY(120%)}   /* hidden below the mask; script lifts each letter as the counter grows */
+#pre .ch{display:inline-block;transform:translateY(120%);will-change:transform}   /* hidden below the mask; script lifts each letter as the counter grows */
 #pre .ch.dot{color:var(--ind2)}
 #pre.out .ch{transform:translateY(-120%)!important;transition:transform .7s cubic-bezier(.7,0,.84,0)}
 /* percentage counter: big number, fixed 3-digit width so nothing shifts when it reaches 100. */
@@ -992,11 +992,11 @@ body.loaded .robo{opacity:1;transform:none}
     }, 1800);
   }
 
-  /* 4) name leaves upward, then curtains lift */
+  /* 4) name leaves upward, then curtains lift — wait for the last letter (delay .48s + .7s) before rising */
   function exitName(){
     chars.forEach(function(c,i){ c.style.transitionDelay = (i*0.03)+'s'; });
     pre.classList.add('out');
-    setTimeout(lift, 950);
+    setTimeout(lift, 1250);
   }
 
   /* name reveal is driven by the counter: letter i starts rising when the progress reaches its turn.
@@ -1030,7 +1030,20 @@ body.loaded .robo{opacity:1;transform:none}
   if(reduce){ pre.style.display='none'; pre2.style.display='none'; body.classList.add('loaded'); }
   else {
     body.style.overflow='hidden';
-    startCount();
+    /* start counting only after the name font is ready, so letters never jump mid-animation */
+    var countStarted = false;
+    var beginCount = function(){
+      if(countStarted) return;
+      countStarted = true;
+      startCount();
+    };
+    if(document.fonts && document.fonts.ready){
+      try {
+        document.fonts.load('800 100px "Plus Jakarta Sans"');
+        document.fonts.ready.then(beginCount);
+        setTimeout(beginCount, 1200);
+      } catch(err){ beginCount(); }
+    } else { beginCount(); }
   }
 
   /* reveal + counters */
