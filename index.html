@@ -373,7 +373,7 @@ body::before{content:"";position:fixed;inset:0;z-index:998;pointer-events:none;o
 @keyframes gridMove{to{transform:translateY(46px)}}
 
 /* light sections: cream tint + drifting blobs + dotted pattern */
-#why,#skills,#exp,#edu,#testimonials,#contact,#projects{position:relative;z-index:0;border-radius:40px;margin-top:-30px}
+#why,#skills,#exp,#edu,#testimonials,#faq,#contact,#projects{position:relative;z-index:0;border-radius:40px;margin-top:-30px}
 #why,#skills,#exp,#edu,#testimonials,#contact{overflow:hidden}
 #why{background:linear-gradient(180deg,#0e1320,#111725)}
 #skills{background:linear-gradient(180deg,#111725,#0c111d)}
@@ -382,8 +382,8 @@ body::before{content:"";position:fixed;inset:0;z-index:998;pointer-events:none;o
 #edu{background:linear-gradient(180deg,#0e1320,#111725)}
 #testimonials{background:linear-gradient(180deg,#111725,#0c111d)}
 #contact{background:linear-gradient(180deg,#0c111d,#0b0f19)}
-#why::before,#skills::before,#exp::before,#edu::before,#testimonials::before,#contact::before,#projects::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1.4px);background-size:26px 26px;-webkit-mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent)}
-#why::after,#skills::after,#exp::after,#edu::after,#testimonials::after,#contact::after{content:"";position:absolute;inset:-10%;z-index:-1;pointer-events:none;background:radial-gradient(30% 28% at 16% 22%,rgba(111,156,201,.24),transparent 70%),radial-gradient(26% 24% at 84% 64%,rgba(51,104,159,.16),transparent 70%),radial-gradient(22% 20% at 68% 16%,rgba(240,180,120,.12),transparent 70%),radial-gradient(20% 18% at 30% 76%,rgba(140,190,240,.12),transparent 70%);animation:aur 30s ease-in-out infinite alternate}
+#why::before,#skills::before,#exp::before,#edu::before,#testimonials::before,#faq::before,#contact::before,#projects::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1.4px);background-size:26px 26px;-webkit-mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent)}
+#why::after,#skills::after,#exp::after,#edu::after,#testimonials::after,#faq::after,#contact::after{content:"";position:absolute;inset:-10%;z-index:-1;pointer-events:none;background:radial-gradient(30% 28% at 16% 22%,rgba(111,156,201,.24),transparent 70%),radial-gradient(26% 24% at 84% 64%,rgba(51,104,159,.16),transparent 70%),radial-gradient(22% 20% at 68% 16%,rgba(240,180,120,.12),transparent 70%),radial-gradient(20% 18% at 30% 76%,rgba(140,190,240,.12),transparent 70%);animation:aur 30s ease-in-out infinite alternate}
 #projects::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(36% 30% at 16% 18%,rgba(111,156,201,.18),transparent 70%),radial-gradient(30% 26% at 84% 72%,rgba(140,190,240,.14),transparent 70%)}
 
 /* footer: twinkling stars + glow */
@@ -494,6 +494,45 @@ body::before{opacity:.03}
 .bub{display:none}
 *,::before,::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.2s!important}
 .js .w,.js .pills span{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+}
+
+/* ===== FAQ + robot assistant ===== */
+#faq{padding:120px 0 110px;overflow:hidden}
+.faq-list{max-width:820px;margin:34px auto 0;display:grid;gap:12px}
+.faq-item{background:rgba(255,255,255,.04);border:1px solid var(--lav2);border-radius:16px;overflow:hidden;transition:border-color .3s,background .3s}
+.faq-item.open{background:rgba(255,255,255,.06);border-color:rgba(111,156,201,.45)}
+.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:17px 20px;background:none;border:0;color:var(--txt);font:600 .95rem/1.4 var(--sans);text-align:left;cursor:pointer}
+.faq-icon{flex:none;width:26px;height:26px;border-radius:50%;background:rgba(111,156,201,.16);color:var(--ind2);display:grid;place-items:center;font-size:1.15rem;line-height:1;transition:transform .3s,background .3s,color .3s}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--ind);color:#fff}
+.faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+.faq-item.open .faq-a{grid-template-rows:1fr}
+.faq-a>div{overflow:hidden}
+.faq-a p{margin:0;padding:0 20px 18px;color:var(--mut);font-size:.88rem;line-height:1.65}
+.faq-cta{text-align:center;margin-top:28px}
+.robo{position:fixed;right:18px;bottom:18px;z-index:390;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.robo-bub{background:var(--cream);color:#10151f;font:600 .8rem/1 var(--sans);padding:10px 14px;border-radius:14px 14px 4px 14px;box-shadow:0 10px 24px -10px rgba(10,14,22,.7);opacity:0;transform:translateY(8px) scale(.9);animation:bubPop 6s ease-in-out infinite;pointer-events:none}
+@keyframes bubPop{0%{opacity:0;transform:translateY(8px) scale(.9)}8%,28%{opacity:1;transform:translateY(0) scale(1)}36%,100%{opacity:0;transform:translateY(4px) scale(.94)}}
+.robo-btn{position:relative;width:62px;height:62px;border-radius:50%;border:0;padding:0;background:none;cursor:pointer;box-shadow:0 16px 34px -12px rgba(10,14,22,.8);transition:transform .3s}
+.robo-btn:hover{transform:translateY(-4px) scale(1.06)}
+.robo-btn:active{transform:scale(.95)}
+.robo-btn::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid rgba(52,229,160,.5);animation:waPulse 3s ease-out infinite;pointer-events:none}
+.robo-btn svg{width:100%;height:100%;display:block}
+.rb-eye{transform-origin:center;animation:rbBlink 4.2s infinite}
+@keyframes rbBlink{0%,91%,100%{transform:scaleY(1)}94%{transform:scaleY(.12)}}
+.robo-panel{position:fixed;right:18px;bottom:94px;z-index:391;width:min(370px,calc(100vw - 28px));max-height:min(72vh,580px);display:flex;flex-direction:column;background:#10161f;border:1px solid var(--lav2);border-radius:22px;box-shadow:0 30px 70px -25px rgba(10,14,22,.9);overflow:hidden;opacity:0;transform:translateY(14px) scale(.97);transition:opacity .25s,transform .25s;pointer-events:none}
+.robo-panel.open{opacity:1;transform:none;pointer-events:auto}
+.robo-head{display:flex;align-items:center;gap:10px;padding:14px 16px;background:rgba(255,255,255,.04);border-bottom:1px solid var(--lav2)}
+.robo-ava{flex:none;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#34e5a0,#7cb8e8);display:grid;place-items:center;font-size:1.05rem;box-shadow:0 6px 16px -6px rgba(52,229,160,.6)}
+.robo-head b{display:block;font-size:.85rem;color:var(--txt)}
+.robo-head small{display:block;color:var(--mut);font-size:.68rem}
+.robo-close{margin-left:auto;flex:none;width:32px;height:32px;border-radius:50%;border:1px solid var(--lav2);background:rgba(255,255,255,.06);color:var(--mut);font-size:1.2rem;line-height:1;cursor:pointer;transition:transform .25s,color .25s}
+.robo-close:hover{color:var(--txt);transform:scale(1.08)}
+.robo-body{overflow-y:auto;padding:12px;display:grid;gap:10px}
+.robo-foot{padding:12px;border-top:1px solid var(--lav2)}
+.robo-foot .btn{width:100%;justify-content:center}
+@media (max-width:720px){
+.robo{right:14px;bottom:14px}
+.robo-panel{right:14px;bottom:88px}
 }
 
 /* ============ RESPONSIVE (tablet + phone) ============ */
@@ -773,6 +812,25 @@ body::before{opacity:.03}
   </div>
 </section>
 
+<!-- ============ FAQ ============ -->
+<section id="faq">
+  <div class="bub" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <div class="top"><div class="rv"><span class="eyebrow">FAQs</span><h2 class="hd">Common <em>Questions</em></h2></div><p class="sub rv d1">Quick answers about me, my work, and how we can start.</p></div>
+    <div class="faq-list rv">
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">Who is Muhammad Ibrahim?<span class="faq-icon">+</span></button><div class="faq-a"><div><p>I'm an Agentic AI Developer from Karachi, Pakistan. I design and build n8n automation workflows, AI agents, and chatbots that take over repetitive tasks — so you can focus on the work that actually matters.</p></div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">What services do you offer?<span class="faq-icon">+</span></button><div class="faq-a"><div><p>Workflow automation with n8n, agentic AI solutions (Claude, Gemini, LangChain), custom chatbots, full-stack web development, and system integrations through APIs and webhooks.</p></div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">How can I hire you?<span class="faq-icon">+</span></button><div class="faq-a"><div><p>Simple — tap the WhatsApp button below, or use the contact form above. Tell me your idea and I'll reply within one working day.</p></div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">What does a project cost?<span class="faq-icon">+</span></button><div class="faq-a"><div><p>It depends on scope: the number of steps, integrations, and the AI involved. Share your idea on WhatsApp and you'll get a clear, fixed quote — no surprises.</p></div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">How fast can you deliver?<span class="faq-icon">+</span></button><div class="faq-a"><div><p>Simple automations usually go live within a few days. Larger agent systems take longer — and you get progress updates at every step.</p></div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">What tools do you work with?<span class="faq-icon">+</span></button><div class="faq-a"><div><p>n8n, Python, Claude, Gemini, LangChain, JavaScript/Node.js, REST APIs, webhooks — and whatever else the job needs to get done right.</p></div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">Can you build a chatbot for my business?<span class="faq-icon">+</span></button><div class="faq-a"><div><p>Yes — customer-support bots, lead-generation bots, and WhatsApp assistants powered by LLMs and trained on your business context.</p></div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">I have an idea — can we discuss it?<span class="faq-icon">+</span></button><div class="faq-a"><div><p>Absolutely, ideas are always welcome! Message me on WhatsApp with a rough sketch of your idea and we'll shape it into a working system together.</p></div></div></div>
+    </div>
+    <div class="faq-cta rv"><a class="btn pri" href="https://wa.me/923333250614?text=Hi%20Ibrahim!%20I%20have%20a%20question%20about%20your%20work." target="_blank" rel="noopener">Still have a question? WhatsApp me</a></div>
+  </div>
+</section>
+
 <!-- ============ REVIEW MODAL ============ -->
 <div class="modal" id="reviewModal" aria-hidden="true">
   <div class="modal-card">
@@ -803,6 +861,50 @@ body::before{opacity:.03}
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Workflow screenshot" hidden>
   <button class="lb-close" id="lbClose" type="button" aria-label="Close screenshot">&times;</button>
   <img id="lbImg" alt="">
+</div>
+
+<!-- ============ ROBOT ASSISTANT ============ -->
+<div class="robo">
+  <div class="robo-bub" aria-hidden="true">Any questions? 👋</div>
+  <button class="robo-btn" id="roboBtn" type="button" aria-label="Open FAQs assistant" aria-expanded="false" title="FAQs — ask about me">
+    <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+      <defs>
+        <radialGradient id="rbG" cx="32%" cy="26%" r="100%">
+          <stop offset="0%" stop-color="#6ff0c0"/>
+          <stop offset="55%" stop-color="#34e5a0"/>
+          <stop offset="100%" stop-color="#1a9e77"/>
+        </radialGradient>
+      </defs>
+      <line x1="32" y1="6" x2="32" y2="14" stroke="#6f9cc9" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="32" cy="6" r="3.4" fill="#7cb8e8"/>
+      <rect x="8" y="14" width="48" height="42" rx="17" fill="url(#rbG)"/>
+      <rect x="2" y="30" width="5" height="12" rx="2.5" fill="#1a9e77"/>
+      <rect x="57" y="30" width="5" height="12" rx="2.5" fill="#1a9e77"/>
+      <rect x="14" y="24" width="36" height="19" rx="9.5" fill="#0c101a"/>
+      <circle class="rb-eye" cx="24" cy="33.5" r="3.4" fill="#7cb8e8"/>
+      <circle class="rb-eye" cx="40" cy="33.5" r="3.4" fill="#7cb8e8"/>
+      <path d="M26 48 Q32 52.5 38 48" stroke="#0c101a" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    </svg>
+  </button>
+</div>
+<div class="robo-panel" id="roboPanel" role="dialog" aria-label="FAQ assistant" hidden>
+  <div class="robo-head">
+    <span class="robo-ava" aria-hidden="true">🤖</span>
+    <div><b>Ibrahim's Assistant</b><small>FAQs — answers about me &amp; my work</small></div>
+    <button class="robo-close" id="roboClose" type="button" aria-label="Close assistant">&times;</button>
+  </div>
+  <div class="robo-body">
+    <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">Who is Muhammad Ibrahim?<span class="faq-icon">+</span></button><div class="faq-a"><div><p>I'm an Agentic AI Developer from Karachi, Pakistan. I build n8n automation workflows, AI agents, and chatbots that take over repetitive tasks.</p></div></div></div>
+    <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">What services do you offer?<span class="faq-icon">+</span></button><div class="faq-a"><div><p>n8n workflow automation, agentic AI solutions, custom chatbots, full-stack web development, and API/webhook integrations.</p></div></div></div>
+    <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">How can I hire you?<span class="faq-icon">+</span></button><div class="faq-a"><div><p>Tap the WhatsApp button below — tell me your idea and I'll reply within one working day.</p></div></div></div>
+    <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">What does a project cost?<span class="faq-icon">+</span></button><div class="faq-a"><div><p>It depends on scope and the AI involved. Share your idea on WhatsApp for a clear, fixed quote — no surprises.</p></div></div></div>
+    <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">How fast can you deliver?<span class="faq-icon">+</span></button><div class="faq-a"><div><p>Simple automations within days; larger systems take longer, with progress updates at every step.</p></div></div></div>
+    <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">Can you build a chatbot for my business?<span class="faq-icon">+</span></button><div class="faq-a"><div><p>Yes — support bots, lead-generation bots, and WhatsApp assistants powered by LLMs, trained on your business context.</p></div></div></div>
+    <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">I have an idea — can we discuss it?<span class="faq-icon">+</span></button><div class="faq-a"><div><p>Absolutely! Message me on WhatsApp and we'll shape your idea into a working system together.</p></div></div></div>
+  </div>
+  <div class="robo-foot">
+    <a class="btn pri" href="https://wa.me/923333250614?text=Hi%20Ibrahim!%20I%20want%20to%20hire%20you%20for%20an%20automation%20project." target="_blank" rel="noopener">Hire me on WhatsApp</a>
+  </div>
 </div>
 
 <!-- ============ FOOTER ============ -->
@@ -1046,6 +1148,39 @@ body::before{opacity:.03}
       if (lb.hidden) return;
       if (e.key === 'Escape') closeLb();
       if (e.key === 'Tab') { e.preventDefault(); lbBtn.focus(); }
+    });
+  }
+
+  /* FAQ accordions (section + assistant panel) */
+  document.querySelectorAll('.faq-q').forEach(function(q){
+    q.addEventListener('click', function(){
+      var open = q.closest('.faq-item').classList.toggle('open');
+      q.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+
+  /* robot assistant panel */
+  var roboBtn = document.getElementById('roboBtn');
+  var roboPanel = document.getElementById('roboPanel');
+  var roboClose = document.getElementById('roboClose');
+  if (roboBtn && roboPanel && roboClose) {
+    var openRobo = function(){
+      roboPanel.hidden = false;
+      requestAnimationFrame(function(){ roboPanel.classList.add('open'); });
+      roboBtn.setAttribute('aria-expanded', 'true');
+      roboClose.focus();
+    };
+    var closeRobo = function(){
+      roboPanel.classList.remove('open');
+      roboBtn.setAttribute('aria-expanded', 'false');
+      setTimeout(function(){ roboPanel.hidden = true; }, 260);
+    };
+    roboBtn.addEventListener('click', function(){
+      if (roboPanel.hidden) { openRobo(); } else { closeRobo(); }
+    });
+    roboClose.addEventListener('click', closeRobo);
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && !roboPanel.hidden) { closeRobo(); }
     });
   }
 })();
