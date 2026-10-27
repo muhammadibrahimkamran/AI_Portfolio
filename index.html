@@ -1049,6 +1049,7 @@ body::before{opacity:.03}
     });
     document.querySelectorAll('.fcols > div').forEach(function(d, i){
       d.classList.add('rv', i % 2 ? 'rv-sr' : 'rv-sl');
+      wio.observe(d);
     });
     document.querySelectorAll('.edu-row').forEach(function(r){ r.classList.add('rv-sl'); });
   }
