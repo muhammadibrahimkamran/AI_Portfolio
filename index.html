@@ -526,8 +526,26 @@ body.loaded .robo{opacity:1;transform:none}
 .robo-head small{display:block;color:var(--mut);font-size:.68rem}
 .robo-close{margin-left:auto;flex:none;width:32px;height:32px;border-radius:50%;border:1px solid var(--lav2);background:rgba(255,255,255,.06);color:var(--mut);font-size:1.2rem;line-height:1;cursor:pointer;transition:transform .25s,color .25s}
 .robo-close:hover{color:var(--txt);transform:scale(1.08)}
-.robo-body{flex:1 1 auto;min-height:0;overflow-y:auto;padding:12px}
-.robo-body .faq-item+.faq-item{margin-top:10px}
+.robo-chat{flex:1 1 auto;min-height:0;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.rmsg{max-width:84%;padding:10px 13px;border-radius:14px;font-size:.85rem;line-height:1.55;color:var(--txt);animation:rmsgIn .25s ease;word-break:break-word}
+@keyframes rmsgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.rmsg.bot{align-self:flex-start;background:rgba(255,255,255,.06);border:1px solid var(--lav2);border-bottom-left-radius:4px}
+.rmsg.user{align-self:flex-end;background:var(--ind);color:#fff;border-bottom-right-radius:4px}
+.rmsg.bot a{color:var(--ind2);font-weight:700}
+.rmsg.typing{padding:12px 14px}
+.rmsg.typing span{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--mut);margin-right:4px;animation:tdot 1s infinite}
+.rmsg.typing span:nth-child(2){animation-delay:.15s}
+.rmsg.typing span:nth-child(3){animation-delay:.3s;margin-right:0}
+@keyframes tdot{0%,100%{transform:translateY(0);opacity:.45}50%{transform:translateY(-4px);opacity:1}}
+.robo-chips{display:flex;gap:8px;padding:0 12px 10px;overflow-x:auto;flex:none}
+.robo-chips button{flex:none;font:600 .74rem var(--sans);color:var(--ind2);background:rgba(111,156,201,.14);border:1px solid rgba(111,156,201,.35);border-radius:99px;padding:8px 12px;cursor:pointer;transition:background .25s,color .25s}
+.robo-chips button:hover{background:rgba(111,156,201,.26);color:var(--txt)}
+.robo-input{display:flex;gap:8px;padding:12px;border-top:1px solid var(--lav2);flex:none}
+.robo-input input{flex:1;min-width:0;background:var(--lav);border:1px solid var(--lav2);border-radius:99px;padding:11px 15px;font:inherit;font-size:.85rem;color:var(--txt);outline:0;transition:border-color .25s,background .25s}
+.robo-input input:focus{border-color:var(--ind);background:#182233}
+.robo-input button{flex:none;width:42px;height:42px;border-radius:50%;border:0;background:var(--ind);color:#fff;font-size:1.05rem;cursor:pointer;transition:transform .25s}
+.robo-input button:hover{transform:scale(1.08)}
+.robo-input button:active{transform:scale(.94)}
 .robo-foot{padding:12px;border-top:1px solid var(--lav2);flex:none}
 .robo-foot .btn{width:100%;justify-content:center}
 @media (max-width:720px){
@@ -892,14 +910,16 @@ body.loaded .robo{opacity:1;transform:none}
     <div><b>Ibrahim's Assistant</b><small>FAQs — answers about me &amp; my work</small></div>
     <button class="robo-close" id="roboClose" type="button" aria-label="Close assistant">&times;</button>
   </div>
-  <div class="robo-body">
-    <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">What services do you offer?<span class="faq-icon">+</span></button><div class="faq-a"><div><p>n8n workflow automation, agentic AI solutions, custom chatbots, full-stack web development, and API/webhook integrations.</p></div></div></div>
-    <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">How can I hire you?<span class="faq-icon">+</span></button><div class="faq-a"><div><p>Tap the WhatsApp button below — tell me your idea and I'll reply within one working day.</p></div></div></div>
-    <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">I have an idea — can we discuss it?<span class="faq-icon">+</span></button><div class="faq-a"><div><p>Absolutely! Message me on WhatsApp and we'll shape your idea into a working system together.</p></div></div></div>
+  <div class="robo-chat" id="roboChat" aria-live="polite"></div>
+  <div class="robo-chips" id="roboChips">
+    <button type="button" data-q="What services do you offer?">What services do you offer?</button>
+    <button type="button" data-q="How can I hire you?">How can I hire you?</button>
+    <button type="button" data-q="I have an idea — can we discuss it?">I have an idea</button>
   </div>
-  <div class="robo-foot">
-    <a class="btn pri" href="https://wa.me/923333250614?text=Hi%20Ibrahim!%20I%20want%20to%20hire%20you%20for%20an%20automation%20project." target="_blank" rel="noopener">Hire me on WhatsApp</a>
-  </div>
+  <form class="robo-input" id="roboForm">
+    <input type="text" id="roboText" placeholder="Ask about Ibrahim..." autocomplete="off" maxlength="200" aria-label="Type your question">
+    <button type="submit" aria-label="Send message">&rarr;</button>
+  </form>
 </div>
 
 <!-- ============ FOOTER ============ -->
@@ -1154,15 +1174,24 @@ body.loaded .robo{opacity:1;transform:none}
     });
   });
 
-  /* robot assistant panel */
+  /* robot assistant panel + FAQ-only chat */
   var roboBtn = document.getElementById('roboBtn');
   var roboPanel = document.getElementById('roboPanel');
   var roboClose = document.getElementById('roboClose');
+  var roboChat = document.getElementById('roboChat');
+  var roboForm = document.getElementById('roboForm');
+  var roboText = document.getElementById('roboText');
+  var roboChips = document.getElementById('roboChips');
+  var welcomed = false;
   if (roboBtn && roboPanel && roboClose) {
     var openRobo = function(){
       roboPanel.hidden = false;
       requestAnimationFrame(function(){ roboPanel.classList.add('open'); });
       roboBtn.setAttribute('aria-expanded', 'true');
+      if (!welcomed) {
+        welcomed = true;
+        addMsg("Hi! 👋 I'm Ibrahim's assistant. I only answer questions about him, his services, and hiring — tap a question below or type your own.", 'bot');
+      }
       roboClose.focus();
     };
     var closeRobo = function(){
@@ -1176,6 +1205,71 @@ body.loaded .robo{opacity:1;transform:none}
     roboClose.addEventListener('click', closeRobo);
     document.addEventListener('keydown', function(e){
       if (e.key === 'Escape' && !roboPanel.hidden) { closeRobo(); }
+    });
+  }
+
+  /* chat: answers ONLY from the FAQ knowledge base below — anything else is refused */
+  var KB = [
+    { k: ['who is', 'who are', 'about him', 'about ibrahim', 'intro', 'background', 'kaun'], a: "I'm an Agentic AI Developer from Karachi, Pakistan. I design and build n8n automation workflows, AI agents, and chatbots that take over repetitive tasks — so you can focus on the work that actually matters." },
+    { k: ['service', 'offer', 'what do you do', 'automat', 'n8n', 'help with', 'what can you'], a: "Workflow automation with n8n, agentic AI solutions (Claude, Gemini, LangChain), custom chatbots, full-stack web development, and system integrations through APIs and webhooks." },
+    { k: ['hire', 'contact', 'reach', 'email', 'whatsapp', 'talk', 'call', 'available'], a: "Simple — message me on WhatsApp with your idea and I'll reply within one working day.", l: 1 },
+    { k: ['cost', 'price', 'charge', 'rate', 'budget', 'quote', 'how much', 'fee', 'expensive'], a: "It depends on scope: the steps, integrations, and the AI involved. Share your idea on WhatsApp and you'll get a clear, fixed quote — no surprises.", l: 1 },
+    { k: ['fast', 'deliver', 'deadline', 'how long', 'when', 'time'], a: "Simple automations usually go live within a few days. Larger agent systems take longer — and you get progress updates at every step." },
+    { k: ['tool', 'tech', 'stack', 'python', 'javascript', 'langchain', 'claude', 'gemini', 'api', 'webhook', 'use'], a: "n8n, Python, Claude, Gemini, LangChain, JavaScript/Node.js, REST APIs, webhooks — and whatever else the job needs to get done right." },
+    { k: ['chatbot', 'bot for', 'support bot', 'lead', 'assistant for'], a: "Yes — customer-support bots, lead-generation bots, and WhatsApp assistants powered by LLMs, trained on your business context." },
+    { k: ['idea', 'discuss', 'start', 'begin', 'suggest', 'my project'], a: "Absolutely, ideas are always welcome! Message me on WhatsApp with a rough sketch of your idea and we'll shape it into a working system together.", l: 1 }
+  ];
+  var GREET = ['hi', 'hello', 'salam', 'hey', 'assalam', 'good morning', 'good evening'];
+  var REFUSE = "I'm just Ibrahim's website assistant 🙂 I can only answer about him, his services, and hiring — anything else is out of my scope. Try one of the questions below, or reach him directly on WhatsApp!";
+
+  var escHtml = function(s){ return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+  var addMsg = function(html, who){
+    if (!roboChat) return null;
+    var d = document.createElement('div');
+    d.className = 'rmsg ' + who;
+    d.innerHTML = html;
+    roboChat.appendChild(d);
+    roboChat.scrollTop = roboChat.scrollHeight;
+    return d;
+  };
+  var botReply = function(q){
+    var t = ' ' + q.toLowerCase().replace(/[^\w\s']/g, ' ').replace(/\s+/g, ' ') + ' ';
+    var best = null, bestScore = 0;
+    KB.forEach(function(item){
+      var s = 0;
+      item.k.forEach(function(kw){ if (t.indexOf(' ' + kw) !== -1) s++; });
+      if (s > bestScore) { bestScore = s; best = item; }
+    });
+    var isGreet = GREET.some(function(gw){ return t.indexOf(' ' + gw + ' ') !== -1; });
+    var typing = addMsg('<span></span><span></span><span></span>', 'bot typing');
+    setTimeout(function(){
+      if (typing) typing.remove();
+      if (best && bestScore > 0) {
+        addMsg(best.a, 'bot');
+        if (best.l) addMsg('<a href="https://wa.me/923333250614?text=Hi%20Ibrahim!%20I%20want%20to%20hire%20you." target="_blank" rel="noopener">Open WhatsApp ↗</a>', 'bot');
+      } else if (isGreet) {
+        addMsg("Hi! 👋 Ask me about Ibrahim's services, hiring, or your project idea.", 'bot');
+      } else {
+        addMsg(REFUSE, 'bot');
+      }
+    }, 650);
+  };
+  var sendChat = function(q){
+    q = (q || '').trim();
+    if (!q || !roboChat) return;
+    addMsg(escHtml(q), 'user');
+    roboText.value = '';
+    botReply(q);
+  };
+  if (roboForm && roboText) {
+    roboForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      sendChat(roboText.value);
+    });
+  }
+  if (roboChips) {
+    roboChips.querySelectorAll('button').forEach(function(b){
+      b.addEventListener('click', function(){ sendChat(b.getAttribute('data-q')); });
     });
   }
 })();
