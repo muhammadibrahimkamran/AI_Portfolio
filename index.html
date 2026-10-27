@@ -1219,7 +1219,7 @@ body.loaded .robo{opacity:1;transform:none}
     { k: ['chatbot', 'bot for', 'support bot', 'lead', 'assistant for'], a: "Yes — customer-support bots, lead-generation bots, and WhatsApp assistants powered by LLMs, trained on your business context." },
     { k: ['idea', 'discuss', 'start', 'begin', 'suggest', 'my project'], a: "Absolutely, ideas are always welcome! Message me on WhatsApp with a rough sketch of your idea and we'll shape it into a working system together.", l: 1 }
   ];
-  var GREET = ['hi', 'hello', 'salam', 'hey', 'assalam', 'good morning', 'good evening'];
+  var GREET_RE = /(^|\s)(hi+|hello+|hy+|hey+|salam+|salaam|assalam|asalam|aoa|good\s(morning|evening|afternoon))(\s|!|\.|\?|,|$)/i;
   var REFUSE = "I'm just Ibrahim's website assistant 🙂 I can only answer about him, his services, and hiring — anything else is out of my scope. Try one of the questions below, or reach him directly on WhatsApp!";
 
   var escHtml = function(s){ return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
@@ -1240,7 +1240,7 @@ body.loaded .robo{opacity:1;transform:none}
       item.k.forEach(function(kw){ if (t.indexOf(' ' + kw) !== -1) s++; });
       if (s > bestScore) { bestScore = s; best = item; }
     });
-    var isGreet = GREET.some(function(gw){ return t.indexOf(' ' + gw + ' ') !== -1; });
+    var isGreet = GREET_RE.test(q);
     var typing = addMsg('<span></span><span></span><span></span>', 'bot typing');
     setTimeout(function(){
       if (typing) typing.remove();
@@ -1248,7 +1248,7 @@ body.loaded .robo{opacity:1;transform:none}
         addMsg(best.a, 'bot');
         if (best.l) addMsg('<a href="https://wa.me/923333250614?text=Hi%20Ibrahim!%20I%20want%20to%20hire%20you." target="_blank" rel="noopener">Open WhatsApp ↗</a>', 'bot');
       } else if (isGreet) {
-        addMsg("Hi! 👋 Ask me about Ibrahim's services, hiring, or your project idea.", 'bot');
+        addMsg("Hi! 👋 Welcome! Ask me about Ibrahim's services, hiring, pricing, or your project idea — I'm all ears.", 'bot');
       } else {
         addMsg(REFUSE, 'bot');
       }
