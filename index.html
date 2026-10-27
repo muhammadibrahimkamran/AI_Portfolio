@@ -1130,8 +1130,7 @@ body::before{opacity:.03}
           cx += (tx - cx) * .06;
           cy += (ty - cy) * .06;
           phone.style.setProperty('--hpx', (cx * 14).toFixed(1) + 'px');
-          phone.style.setProperty('--hpy2', '');
-          phone.style.setProperty('--hpy', ((cy * 10) + (phone._sy || 0)).toFixed(1) + 'px');
+          phone.style.setProperty('--hpy', (cy * 10).toFixed(1) + 'px');
           phone.style.setProperty('--hrx', (cy * -6).toFixed(2) + 'deg');
           phone.style.setProperty('--hry', (cx * 8).toFixed(2) + 'deg');
         }
