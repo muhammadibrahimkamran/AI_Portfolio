@@ -1190,7 +1190,7 @@ body.loaded .robo{opacity:1;transform:none}
       roboBtn.setAttribute('aria-expanded', 'true');
       if (!welcomed) {
         welcomed = true;
-        addMsg("Hi! 👋 I'm Ibrahim's assistant. I only answer questions about him, his services, and hiring — tap a question below or type your own.", 'bot');
+        addMsg("Hi! 👋 I'm Ibrahim's assistant. Ask me anything about him — his work, projects, education, experience — or hiring.", 'bot');
       }
       roboClose.focus();
     };
@@ -1210,17 +1210,21 @@ body.loaded .robo{opacity:1;transform:none}
 
   /* chat: answers ONLY from the FAQ knowledge base below — anything else is refused */
   var KB = [
-    { k: ['who is', 'who are', 'about him', 'about ibrahim', 'intro', 'background', 'kaun'], a: "I'm an Agentic AI Developer from Karachi, Pakistan. I design and build n8n automation workflows, AI agents, and chatbots that take over repetitive tasks — so you can focus on the work that actually matters." },
+    { k: ['who is', 'who are', 'about him', 'about ibrahim', 'about you', 'yourself', 'tell me about', 'intro', 'background', 'kaun'], a: "I'm Muhammad Ibrahim — a 20-year-old Agentic AI Developer from Karachi, Pakistan. I build n8n automation workflows, AI agents, and chatbots that take over repetitive tasks, so you can focus on the work that actually matters." },
+    { k: ['age', 'how old', 'old are you', 'where is he', 'where are you', 'where do you live', 'your location', 'based in', 'which city', 'karachi', 'pakistan'], a: "I'm a 20-year-old Agentic AI Developer based in Karachi, Pakistan (Scheme 33) — working with clients remotely from all over the world." },
     { k: ['service', 'offer', 'what do you do', 'automat', 'n8n', 'help with', 'what can you'], a: "Workflow automation with n8n, agentic AI solutions (Claude, Gemini, LangChain), custom chatbots, full-stack web development, and system integrations through APIs and webhooks." },
     { k: ['hire', 'contact', 'reach', 'email', 'whatsapp', 'talk', 'call', 'available'], a: "Simple — message me on WhatsApp with your idea and I'll reply within one working day.", l: 1 },
     { k: ['cost', 'price', 'charge', 'rate', 'budget', 'quote', 'how much', 'fee', 'expensive'], a: "It depends on scope: the steps, integrations, and the AI involved. Share your idea on WhatsApp and you'll get a clear, fixed quote — no surprises.", l: 1 },
     { k: ['fast', 'deliver', 'deadline', 'how long', 'when', 'time'], a: "Simple automations usually go live within a few days. Larger agent systems take longer — and you get progress updates at every step." },
-    { k: ['tool', 'tech', 'stack', 'python', 'javascript', 'langchain', 'claude', 'gemini', 'api', 'webhook', 'use'], a: "n8n, Python, Claude, Gemini, LangChain, JavaScript/Node.js, REST APIs, webhooks — and whatever else the job needs to get done right." },
+    { k: ['tool', 'tech', 'stack', 'python', 'javascript', 'langchain', 'claude', 'gemini', 'api', 'webhook'], a: "n8n, Python, Claude, Gemini, LangChain, JavaScript/Node.js, REST APIs, webhooks — and whatever else the job needs to get done right." },
     { k: ['chatbot', 'bot for', 'support bot', 'lead', 'assistant for'], a: "Yes — customer-support bots, lead-generation bots, and WhatsApp assistants powered by LLMs, trained on your business context." },
-    { k: ['idea', 'discuss', 'start', 'begin', 'suggest', 'my project'], a: "Absolutely, ideas are always welcome! Message me on WhatsApp with a rough sketch of your idea and we'll shape it into a working system together.", l: 1 }
+    { k: ['idea', 'discuss', 'start', 'begin', 'suggest', 'my project'], a: "Absolutely, ideas are always welcome! Message me on WhatsApp with a rough sketch of your idea and we'll shape it into a working system together.", l: 1 },
+    { k: ['project', 'made', 'built', 'portfolio', 'clients', 'sample', 'examples', 'demo', 'already'], a: "I've already built an Email Auto-Drafter, a Twitter Auto-Poster, an Appointment Booking System, a Simple Chatbot, and WhatsApp Customer Support automation — all with n8n. See the Projects section above, or check github.com/muhammadibrahimkamran." },
+    { k: ['education', 'study', 'student', 'diploma', 'degree', 'school', 'college', 'institute', 'saylani', 'qualification', 'trained'], a: "I completed a Diploma in Computer Information Technology at Aligarh Institute of Technology, I'm training in Agentic AI Development at Saylani Mass IT, and I've also done e-commerce training." },
+    { k: ['experience', 'career', 'journey', 'worked', 'freelance', 'founder', 'job'], a: "I run my own platform, Ibrahim Automates, building custom n8n workflows and agent pipelines; I'm an AI Development trainee at Saylani Mass IT; and I work as a freelance AI chatbot developer." }
   ];
   var GREET_RE = /(^|\s)(hi+|hello+|hy+|hey+|salam+|salaam|assalam|asalam|aoa|good\s(morning|evening|afternoon))(\s|!|\.|\?|,|$)/i;
-  var REFUSE = "I'm just Ibrahim's website assistant 🙂 I can only answer about him, his services, and hiring — anything else is out of my scope. Try one of the questions below, or reach him directly on WhatsApp!";
+  var REFUSE = "I'm just Ibrahim's website assistant 🙂 I can only answer questions about him — his work, projects, education, experience, and hiring. Anything else is out of my scope. Try one of the questions below, or reach him directly on WhatsApp!";
 
   var escHtml = function(s){ return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
   var addMsg = function(html, who){
@@ -1248,7 +1252,7 @@ body.loaded .robo{opacity:1;transform:none}
         addMsg(best.a, 'bot');
         if (best.l) addMsg('<a href="https://wa.me/923333250614?text=Hi%20Ibrahim!%20I%20want%20to%20hire%20you." target="_blank" rel="noopener">Open WhatsApp ↗</a>', 'bot');
       } else if (isGreet) {
-        addMsg("Hi! 👋 Welcome! Ask me about Ibrahim's services, hiring, pricing, or your project idea — I'm all ears.", 'bot');
+        addMsg("Hi! 👋 Welcome! Ask me about Ibrahim — his projects, education, experience, services, or hiring.", 'bot');
       } else {
         addMsg(REFUSE, 'bot');
       }
