@@ -14,6 +14,7 @@
   --lav:#efecff; --lav2:#ddd6ff; --cream:#f8ecc9; --txt:#25214a; --mut:#6c6890; --white:#fff;
   --sans:'Plus Jakarta Sans',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
   --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+  
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -284,24 +285,76 @@ footer{background:var(--ink);color:#fff;border-radius:44px 44px 0 0;padding:90px
 .fcols .logo b{width:32px;height:32px;border-radius:9px;background:var(--cream);color:var(--ink);display:grid;place-items:center;font-size:.76rem}
 .fbot{display:flex;justify-content:space-between;font-size:.74rem;color:#8f89c9;border-top:1px solid rgba(255,255,255,.1);padding:18px 0}
 .giant{font-size:clamp(2rem,6.2vw,7rem);font-weight:800;letter-spacing:-.06em;line-height:.8;white-space:nowrap;text-align:center;color:transparent;background:linear-gradient(180deg,var(--ind2),#2a1a8a 70%,transparent);-webkit-background-clip:text;background-clip:text;margin:0;padding-top:.1em;padding-bottom:0;width:100%;overflow:hidden;user-select:none}
-@media (max-width:768px){html,body{overflow-x:hidden;max-width:100%}*,*::before,*::after{box-sizing:border-box}section,.wrap,.pcard,.svc,.job,.job .box,.tcard,.more .mc,.review-card,.modal-card,.fcols,.info,.cbox,.stack-grid,.cards4,.edu-row,.hero-stage,.marq-wrap{max-width:100%}img,svg,video{max-width:100%;height:auto}}
-@media (max-width:768px){html,body{overflow-x:hidden;max-width:100%;width:100%}*,*::before,*::after{box-sizing:border-box}section,.wrap,.pcard,.svc,.job,.job .box,.tcard,.more .mc,.review-card,.modal-card,.fcols,.info,.cbox,.stack-grid,.cards4,.edu-row,.hero-stage,.quote,.chip,.role,.marq-wrap{width:100%;max-width:100%;box-sizing:border-box}.cards4,.stack-grid,.pcard,.info,.cbox,.fcols,.more,.job,.edu-row{grid-template-columns:1fr}.wrap{padding:0 16px}.hero-stage{height:auto;min-height:260px}section{overflow-x:hidden}.giant{font-size:clamp(1.2rem,4vw,2rem)}.marq-wrap{padding:20px 0}.review-card{flex:0 0 85vw;max-width:85vw}.quote{max-width:100%}img,svg,video{max-width:100%;height:auto}}
+/* ============ RESPONSIVE (tablet + phone) ============ */
+@media (max-width:1000px){
+  .cards4,.stack-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #why .grid,.cbox{grid-template-columns:minmax(0,1fr)}
+  .fcols{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:800px){nav a{padding:9px 10px}}
+@media (max-width:720px){
+  html,body{max-width:100%}
+  img,svg,video{max-width:100%;height:auto}
+  .cards4>*,.stack-grid>*,.more>*,.info>*,.cbox>*,.pcard>*,.job>*,.edu-row>*,.fcols>*,#why .grid>*{min-width:0}
+  h1,h2,h3,h4,p,li,label{overflow-wrap:break-word}
+  .info div,.clinks a span,.fcols li,.fcols p{overflow-wrap:anywhere}
 
-/* ===== TIMELINE + OVERFLOW FIX (mobile) ===== */
-@media (max-width: 768px) {
-  .tline::before, .tline .fill { left: 9px !important; transform: translateX(0) !important; }
-  .job { grid-template-columns: 1fr !important; padding-left: 38px !important; }
-  .job::after { left: 9px !important; }
-  .job .meta { text-align: left !important; order: 0 !important; }
-  .big-card { max-width: 100% !important; width: 100% !important; box-sizing: border-box !important; transform: none !important; }
-  section, .wrap, .pcard, .svc, .job, .job .box, .tcard, .more .mc, .review-card, .modal-card, .fcols, .info, .cbox, .stack-grid, .cards4, .edu-row, .hero-stage, .marq-wrap { max-width: 100% !important; box-sizing: border-box !important; }
-  html, body { overflow-x: hidden !important; max-width: 100% !important; }
+  nav{width:94%;max-width:94%;justify-content:space-between;gap:0;padding:5px}
+  nav a{padding:8px 8px;font-size:.68rem}
+  nav .logo{padding:0 4px}nav .logo span{display:none}
+
+  #home{padding-top:92px}
+  .quote,.role{display:none}
+  .hero-stage{width:100%;height:340px;min-height:300px}
+  .chip{font-size:.66rem;padding:8px 11px}
+  .chip.c1{left:2%;bottom:70px}
+  .chip.c2{right:2%;bottom:150px}
+  .chip.c3{right:2%;bottom:104px}
+  .marq-wrap{padding:20px 0;min-height:200px}
+  .marq{height:52px;font-size:.82rem}
+
+  .wrap{width:100%;max-width:100%;padding:0 16px}
+  #about,#why,#skills,#exp,#projects,#edu,#testimonials{padding-top:80px;padding-bottom:80px}
+  #contact{padding:70px 0 60px}
+  #about{border-radius:30px 30px 0 0;margin-top:-30px}
+  .cards4,.stack-grid,.more,.info,.edu-row{grid-template-columns:minmax(0,1fr)}
+  .svc{min-height:0}.svc h3{margin-top:40px}
+  .big-card{transform:none}.award{right:8px;top:-18px}
+  .stats{gap:22px}
+  .tline::before,.tline .fill{left:10px}
+  .job{grid-template-columns:minmax(0,1fr);gap:12px;padding-left:36px}
+  .job::after{left:10px}
+  .job .meta,.job:nth-child(even) .meta{text-align:left;order:0}
+  .pcard{grid-template-columns:minmax(0,1fr);position:relative;top:0;padding:22px;min-height:0}
+  .pvis{min-height:260px}
+  .more .th{width:90px;height:70px}
+  .edu-row{gap:6px}
+  .review-card{flex:0 0 min(300px,82vw)}
+  .cbox{grid-template-columns:minmax(0,1fr);border-radius:28px}
+  form .r2{grid-template-columns:minmax(0,1fr)}
+  .modal-card{padding:22px}
+
+  footer{border-radius:30px 30px 0 0}
+  .fhead{flex-direction:column;align-items:flex-start}
+  .fcols{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fbot{flex-direction:column;gap:6px}
+  .giant{font-size:clamp(1.5rem,7vw,7rem)}
+}
+@media (max-width:480px){
+  nav{width:96%;max-width:96%}
+  nav a{padding:8px 6px;font-size:.64rem}
+  nav .logo{display:none}
+  .fcols{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:340px){
+  nav a{padding:8px 4px;font-size:.58rem}
 }
 
 </style>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<noscript><style>#pre,#pre2{display:none!important}.rv,#home .stagger>*,.hero-stage{opacity:1!important;transform:none!important;filter:none!important}nav{transform:translate(-50%,0)!important}</style></noscript>
 </head>
 <body>
 
@@ -681,6 +734,6 @@ footer{background:var(--ink);color:#fff;border-radius:44px 44px 0 0;padding:90px
   });
 })();
 </script>
-<script src="script.js"></script>
+<script defer src="script.js"></script>
 </body>
 </html>
