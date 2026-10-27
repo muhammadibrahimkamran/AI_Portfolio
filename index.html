@@ -313,10 +313,12 @@ img.zoomable{cursor:zoom-in}
 @keyframes waPulse{0%{transform:scale(.82);opacity:.9}70%,100%{transform:scale(1.4);opacity:0}}
 @media (hover:hover) and (pointer:fine){a:hover .wa-logo{transform:translateY(-3px) scale(1.08)}}
 @media (prefers-reduced-motion: reduce){.wa-wrap::after{animation:none}}
-/* profile photo chip */
-.my-photo{width:60px;height:60px;padding:3px;border-radius:50%;background:linear-gradient(135deg,var(--ind),#38e1ff 70%,#ff5fd2);box-shadow:0 12px 26px -10px rgba(69,39,245,.55);transform:rotate(-4deg);margin-bottom:14px;transition:transform .4s}
-.my-photo img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
-@media (hover:hover) and (pointer:fine){.my-photo:hover{transform:rotate(0) scale(1.08)}}
+/* profile portrait */
+.about-top{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-bottom:4px}
+.my-photo{--tilt:-3deg;flex:none;width:150px;height:150px;padding:7px;border-radius:30px;background:linear-gradient(135deg,var(--ind),#38e1ff 70%,#ff5fd2);box-shadow:0 26px 54px -20px rgba(69,39,245,.6),0 0 0 1px rgba(112,89,255,.28);transform:rotate(var(--tilt));transition:transform .4s}
+.my-photo img{width:100%;height:100%;border-radius:23px;object-fit:cover;display:block}
+.my-photo.in{transform:rotate(var(--tilt))}
+@media (hover:hover) and (pointer:fine){.my-photo:hover{transform:rotate(0) scale(1.04) translateY(-4px)}}
 @media (prefers-reduced-motion: reduce){.my-photo{transform:none}}
 
 /* footer socials: raised animated official badges */
@@ -517,6 +519,9 @@ body::before{opacity:.03}
   .cards4,.stack-grid,.more,.info,.edu-row{grid-template-columns:minmax(0,1fr)}
   .svc{min-height:0}.svc h3{margin-top:40px}
   .big-card{transform:rotate(-2deg)}.award{right:8px;top:-18px}
+  .about-top{gap:16px}
+  .my-photo{width:118px;height:118px;border-radius:26px;padding:6px}
+  .my-photo img{border-radius:20px}
   .stats{gap:22px}
   .tline::before,.tline .fill{left:10px}
   .job{grid-template-columns:minmax(0,1fr);gap:12px;padding-left:36px}
@@ -629,9 +634,13 @@ body::before{opacity:.03}
       <ul><li>Custom workflow automation</li><li>Agentic AI integration</li><li>Seamless API connectivity</li><li>Optimized digital pipelines</li></ul>
     </div>
     <div>
-      <div class="my-photo rv"><img src="ibrahim.png" alt="Muhammad Ibrahim — Agentic AI Developer" width="60" height="60" loading="lazy" decoding="async"></div>
-      <span class="eyebrow rv">About Me</span>
-      <h2 class="hd rv">Why <em>Hire</em> Me?</h2>
+      <div class="about-top">
+        <div class="my-photo rv"><img src="ibrahim.jpg" alt="Muhammad Ibrahim — Agentic AI Developer" width="460" height="460" loading="lazy" decoding="async"></div>
+        <div class="about-head">
+          <span class="eyebrow rv">About Me</span>
+          <h2 class="hd rv">Why <em>Hire</em> Me?</h2>
+        </div>
+      </div>
       <p class="lead rv d1">Passionate Agentic AI Developer turning complex operational tasks into streamlined, automated workflows using cutting-edge tools.</p>
       <div class="info rv d2">
         <div><small>Based in</small>Karachi, Pakistan</div><div><small>Email</small>ibrahimautomation647@gmail.com</div>
